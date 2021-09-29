@@ -19,7 +19,6 @@ namespace gazebo
     {
       // Store the pointer to the model
       this->model = _parent;
-
       // Listen to the update event. This event is broadcast every
       // simulation iteration.
       this->updateConnection = event::Events::ConnectWorldUpdateBegin(

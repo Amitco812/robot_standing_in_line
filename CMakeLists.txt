@@ -28,6 +28,10 @@ target_link_libraries(model_push_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 add_library(earthquake_plugin src/earthquake.cc)
 target_link_libraries(earthquake_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+# For move_person_plugin plugin
+add_library(move_person_plugin src/move_person.cc)
+target_link_libraries(move_person_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 catkin_package(
   DEPENDS 
