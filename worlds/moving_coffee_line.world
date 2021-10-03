@@ -1,4 +1,5 @@
-<sdf version='1.6'>
+<?xml version="1.0" ?>
+<sdf version='1.4'>
   <world name='default'>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
@@ -357,7 +358,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -407,7 +408,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_10'>
         <visual name='visual'>
@@ -457,7 +458,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_11'>
         <visual name='visual'>
@@ -503,7 +504,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_12'>
         <visual name='visual'>
@@ -553,7 +554,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -599,7 +600,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -649,7 +650,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -695,7 +696,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -745,7 +746,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -795,7 +796,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -845,7 +846,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -895,7 +896,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_9'>
         <visual name='visual'>
@@ -945,11 +946,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>1.58049 5.77436 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <model name='human_male_4'>
       <link name='link_0'>
@@ -1000,7 +1002,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -1046,7 +1048,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -1092,7 +1094,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -1142,7 +1144,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -1192,7 +1194,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -1238,7 +1240,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -1284,7 +1286,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -1330,7 +1332,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -1376,11 +1378,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>1.95448 6.11045 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <model name='human_male_2'>
       <link name='link_0'>
@@ -1431,7 +1434,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -1477,7 +1480,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -1523,7 +1526,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -1573,7 +1576,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -1623,7 +1626,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -1669,7 +1672,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -1715,7 +1718,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -1761,7 +1764,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -1807,11 +1810,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>3.23223 5.62495 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <model name='human_female_1'>
       <link name='link_0'>
@@ -1862,7 +1866,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -1912,7 +1916,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_10'>
         <visual name='visual'>
@@ -1962,7 +1966,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_11'>
         <visual name='visual'>
@@ -2008,7 +2012,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_12'>
         <visual name='visual'>
@@ -2058,7 +2062,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -2104,7 +2108,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -2154,7 +2158,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -2200,7 +2204,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -2250,7 +2254,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -2300,7 +2304,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -2350,7 +2354,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -2400,7 +2404,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_9'>
         <visual name='visual'>
@@ -2450,11 +2454,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.48015 4.88513 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <model name='human_female_2'>
       <link name='link_0'>
@@ -2505,7 +2510,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -2555,7 +2560,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_10'>
         <visual name='visual'>
@@ -2605,7 +2610,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_11'>
         <visual name='visual'>
@@ -2651,7 +2656,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_12'>
         <visual name='visual'>
@@ -2701,7 +2706,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -2747,7 +2752,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -2797,7 +2802,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -2843,7 +2848,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -2893,7 +2898,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -2943,7 +2948,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -2993,7 +2998,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -3043,7 +3048,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_9'>
         <visual name='visual'>
@@ -3093,11 +3098,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>5.03748 4.07141 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <model name='human_female_1_0'>
       <link name='link_0'>
@@ -3148,7 +3154,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -3198,7 +3204,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_10'>
         <visual name='visual'>
@@ -3248,7 +3254,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_11'>
         <visual name='visual'>
@@ -3294,7 +3300,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_12'>
         <visual name='visual'>
@@ -3344,7 +3350,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -3390,7 +3396,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -3440,7 +3446,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -3486,7 +3492,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -3536,7 +3542,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -3586,7 +3592,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -3636,7 +3642,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -3686,7 +3692,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_9'>
         <visual name='visual'>
@@ -3736,11 +3742,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>5.01024 3.10228 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <model name='human_male_1'>
       <link name='link_0'>
@@ -3791,7 +3798,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_1'>
         <visual name='visual'>
@@ -3837,7 +3844,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_2'>
         <visual name='visual'>
@@ -3883,7 +3890,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_3'>
         <visual name='visual'>
@@ -3933,7 +3940,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_4'>
         <visual name='visual'>
@@ -3983,7 +3990,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_5'>
         <visual name='visual'>
@@ -4029,7 +4036,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_6'>
         <visual name='visual'>
@@ -4075,7 +4082,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_7'>
         <visual name='visual'>
@@ -4121,7 +4128,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
       <link name='link_8'>
         <visual name='visual'>
@@ -4167,11 +4174,12 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>1</gravity>
+        <gravity>0</gravity>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.23543 4.17297 0 0 -0 0</pose>
+      <plugin name="move_person_plugin" filename="libmove_person_plugin.so"/>
     </model>
     <state world_name='default'>
       <sim_time>4218 297000000</sim_time>
