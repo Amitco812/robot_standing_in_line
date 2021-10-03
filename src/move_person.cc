@@ -28,33 +28,37 @@ namespace gazebo
     // Called by the world update start event
     public: void OnUpdate()
     {
-      double curr_time = ros::Time::now().toSec();
-      if(this->old_secs == 0.0){
-        this->old_secs = curr_time;
-      }
-      double delta = curr_time - this->old_secs;
-
-      if(to_wait){
-        if(delta > this->waiting_time && this->next_point >= -1){
-          ROS_WARN("need to walk");
-          this->to_wait = !(this->to_wait);
+      if(this->next_point >= -1){
+        double curr_time = ros::Time::now().toSec();
+        if(this->old_secs == 0.0){
           this->old_secs = curr_time;
-          //here goes the logic for velocity in the right direction (heading to poses[next_point])
-          math::Pose heading_to = this->next_point >= 0 ? poses[this->next_point] : this->my_end;
-          this->next_point--;
-          math::Pose current_pos = this->model->GetWorldPose();
-          double x_vel = (heading_to.pos.x - current_pos.pos.x)/(this->walking_time);
-          double y_vel = (heading_to.pos.y - current_pos.pos.y)/(this->walking_time);
-          ROS_WARN("x: %f , y: %f",x_vel,y_vel);
-          this->model->SetLinearVel(ignition::math::Vector3d(x_vel, y_vel, 0));
         }
-      }else{
-        if(delta > this->walking_time){
-          ROS_WARN("need to wait, nextPoint: %d",this->next_point);
-          this->to_wait = !(this->to_wait);
-          this->old_secs = curr_time;
-          this->model->SetLinearVel(ignition::math::Vector3d(0, 0, 0));
+        double delta = curr_time - this->old_secs;
+        
+        if(to_wait){
+          if(delta > this->waiting_time){
+            ROS_WARN("need to walk");
+            this->to_wait = !(this->to_wait);
+            this->old_secs = curr_time;
+            //here goes the logic for velocity in the right direction (heading to poses[next_point])
+            math::Pose heading_to = this->next_point >= 0 ? poses[this->next_point] : this->my_end;
+            math::Pose current_pos = this->model->GetWorldPose();
+            double x_vel = (heading_to.pos.x - current_pos.pos.x)/(this->walking_time);
+            double y_vel = (heading_to.pos.y - current_pos.pos.y)/(this->walking_time);
+            ROS_WARN("x: %f , y: %f",x_vel,y_vel);
+            this->model->SetLinearVel(ignition::math::Vector3d(x_vel, y_vel, 0));
+          }
+        }else{
+          if(delta > this->walking_time){
+            this->next_point--;
+            ROS_WARN("need to wait, nextPoint: %d",this->next_point);
+            this->to_wait = !(this->to_wait);
+            this->old_secs = curr_time;
+            this->model->SetLinearVel(ignition::math::Vector3d(0, 0, 0));
+          }
         }
+      }else if (to_wait){
+        this->model->SetLinearVel(ignition::math::Vector3d(0, 0, 0));
       }
           
     }
