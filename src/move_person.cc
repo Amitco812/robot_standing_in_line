@@ -45,23 +45,24 @@ namespace gazebo
             math::Pose current_pos = this->model->GetWorldPose();
             double x_vel = (heading_to.pos.x - current_pos.pos.x)/(this->walking_time);
             double y_vel = (heading_to.pos.y - current_pos.pos.y)/(this->walking_time);
+            double yaw_vel = (heading_to.rot.GetYaw() - current_pos.rot.GetYaw())/(this->walking_time);
             ROS_WARN("x: %f , y: %f",x_vel,y_vel);
             this->model->SetLinearVel(ignition::math::Vector3d(x_vel, y_vel, 0));
+            this->model->SetAngularVel(ignition::math::Vector3d(0,0,yaw_vel));
           }
         }else{
           if(delta > this->walking_time){
-            if(this->next_point > -1){
-              this->model->SetWorldPose(poses[this->next_point]);
-            }
             this->next_point--;
             ROS_WARN("need to wait, nextPoint: %d",this->next_point);
             this->to_wait = !(this->to_wait);
             this->old_secs = curr_time;
             this->model->SetLinearVel(ignition::math::Vector3d(0, 0, 0));
+            this->model->SetAngularVel(ignition::math::Vector3d(0,0,0));
           }
         }
       }else if (to_wait){
         this->model->SetLinearVel(ignition::math::Vector3d(0, 0, 0));
+        this->model->SetAngularVel(ignition::math::Vector3d(0,0,0));
       }
           
     }
