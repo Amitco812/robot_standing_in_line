@@ -50,6 +50,9 @@ namespace gazebo
           }
         }else{
           if(delta > this->walking_time){
+            if(this->next_point > -1){
+              this->model->SetWorldPose(poses[this->next_point]);
+            }
             this->next_point--;
             ROS_WARN("need to wait, nextPoint: %d",this->next_point);
             this->to_wait = !(this->to_wait);
@@ -66,19 +69,19 @@ namespace gazebo
     private: void AddPoses(){
       double zero=0.0;
       
-      math::Pose p_barista = math::Pose(1.4,6.0,zero,zero,zero,zero);
+      math::Pose p_barista = math::Pose(1.4,6.0,zero,zero,zero,-1.6);
       this->poses[0]=p_barista;
-      math::Pose p2 = math::Pose(2.25,6.4,zero,zero,zero,zero);
+      math::Pose p2 = math::Pose(2.25,6.4,zero,zero,zero,-1.6);
       this->poses[1]=p2;
-      math::Pose p3 = math::Pose(3.0,6.4,zero,zero,zero,zero);
+      math::Pose p3 = math::Pose(3.0,6.4,zero,zero,zero,-1.6);
       this->poses[2]=p3;
-      math::Pose p4 = math::Pose(3.6,5.6,zero,zero,zero,zero);
+      math::Pose p4 = math::Pose(3.6,5.6,zero,zero,zero,-1.8);
       this->poses[3]=p4;
-      math::Pose p5 = math::Pose(4.1,5.25,zero,zero,zero,zero);
+      math::Pose p5 = math::Pose(4.1,5.25,zero,zero,zero,-2);
       this->poses[4]=p5;
-      math::Pose p6 = math::Pose(4.5,4.7,zero,zero,zero,zero);
+      math::Pose p6 = math::Pose(4.5,4.7,zero,zero,zero,-2.5);
       this->poses[5]=p6;
-      math::Pose p7 = math::Pose(5.1,3.94,zero,zero,zero,zero);
+      math::Pose p7 = math::Pose(5.1,3.94,zero,zero,zero,-3);
       this->poses[6]=p7;
 
     }

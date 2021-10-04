@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>tc_gazebo_custom_plugins</name>
+  <name>robot_standing_in_line</name>
   <version>0.0.0</version>
-  <description>The tc_gazebo_custom_plugins package</description>
+  <description>The robot_standing_in_line package</description>
   <maintainer email="duckfrost@theconstructsim.com">user</maintainer>
 
   <license>TODO</license>
