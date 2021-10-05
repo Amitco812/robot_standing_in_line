@@ -2,6 +2,6 @@
 <launch>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="paused" value="true"/>
-    <arg name="world_name" value="$(find robot_standing_in_line)/worlds/moving_coffee_line.world"/>
+    <arg name="world_name" value="$(find robot_standing_in_line)/worlds/men_coffee_line.world"/>
   </include>
 </launch>
