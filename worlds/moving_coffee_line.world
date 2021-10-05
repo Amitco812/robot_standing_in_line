@@ -3742,7 +3742,7 @@
         </collision>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <gravity>0</gravity>
+        <gravity>0</gravity>     
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
