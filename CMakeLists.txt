@@ -20,6 +20,10 @@ include_directories(${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE
 add_library(move_person_plugin src/move_person.cc)
 target_link_libraries(move_person_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+# For move_cup_plugin plugin
+add_library(move_cup_plugin src/move_cup.cc)
+target_link_libraries(move_cup_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 catkin_package(
   DEPENDS 
