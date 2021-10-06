@@ -85,12 +85,11 @@
     <model name='cafe'>
       <model name='plastic_cup'>
         <link name='link'>
-          <pose frame=''>-1.2 5 1.5 0 -0 0</pose>
           <collision name='collision'>
             <geometry>
               <mesh>
                 <uri>model://plastic_cup/meshes/plastic_cup.dae</uri>
-                <scale>1.5 1.5 1.5</scale>
+                <scale>2 2 2</scale>
               </mesh>
             </geometry>
             <surface>
@@ -121,13 +120,13 @@
             <geometry>
               <mesh>
                 <uri>model://plastic_cup/meshes/plastic_cup.dae</uri>
-                <scale>1.5 1.5 1.5</scale>
+                <scale>2 2 2</scale>
               </mesh>
             </geometry>
             <material>
               <script>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
-                <name>Gazebo/GreyTransparent</name>
+                <name>Gazebo/Orange</name>
               </script>
             </material>
           </visual>
@@ -135,6 +134,7 @@
           <kinematic>0</kinematic>
           <gravity>0</gravity>
         </link>
+        <pose frame=''>-1.2 5 10 0 -0 0</pose>
         <plugin name="move_cup_plugin" filename="libmove_cup_plugin.so"/>
       </model>
       <static>1</static>

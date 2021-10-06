@@ -30,8 +30,8 @@ namespace gazebo
           this->old_secs = curr_time;
         }
         double delta = curr_time - this->old_secs;
-        if(delta > 50.0 && this->move_cup){
-          this->model->SetWorldPose(math::Pose(0,0,0,0,0,0));
+        if(delta > 70.0 && this->move_cup){
+          this->model->SetRelativePose(math::Pose(-1.2 ,5.0, 1.5, 0, -0 ,0));
           this->move_cup=false;
         }
     }
