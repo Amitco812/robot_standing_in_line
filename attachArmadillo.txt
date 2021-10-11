@@ -1,0 +1,1 @@
+roslaunch armadillo2 armadillo2.launch gazebo:=true kinect:=true world_name:="`rospack find robot_standing_in_line`/men_coffee_line.world" map:="`rospack find robot_standing_in_line`/coffee_line.yaml" have_map:=true move_base:=true amcl:=true lidar:=true x:="1.0" y:="1.0" Y:="1.0"
