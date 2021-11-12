@@ -134,7 +134,7 @@ namespace gazebo
     double old_secs;
 
     //waiting_time
-    double waiting_time = 5.0;
+    double waiting_time = 100.0;
 
     //walking_time
     double walking_time = 3.0;

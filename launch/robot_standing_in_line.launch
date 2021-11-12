@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
+    <node name="line_tracker_service" pkg="robot_standing_in_line" type="line_tracker_service.py" output="screen"/>
+</launch>
