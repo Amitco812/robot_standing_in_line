@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
-    <node pkg="robot_standing_in_line" type="line_tracker_service.py" name="line_tracker_service" output="screen"/>
+    <!-- <include file="$(find line_detector)/launch/line_end_detection_py3.launch" /> -->
+    <node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
 </launch>
