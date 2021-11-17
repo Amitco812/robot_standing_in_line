@@ -7,7 +7,10 @@ add_definitions(-std=c++11)
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS 
   roscpp 
+  rospy
   gazebo_ros 
+  std_msgs
+  message_generation
 )
 
 # Depend on system install of Gazebo
@@ -17,6 +20,11 @@ find_package(gazebo REQUIRED)
 add_service_files(
   FILES
   TrackerMsg.srv
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
 )
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
@@ -34,5 +42,8 @@ target_link_libraries(move_cup_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 catkin_package(
   DEPENDS 
     roscpp 
+    rospy
+    std_msgs
     gazebo_ros 
+    message_runtime
 )
