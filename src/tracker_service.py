@@ -4,12 +4,15 @@
 import rospy
 import numpy as np
 from robot_standing_in_line.srv import TrackerMsg,TrackerMsgResponse
+from rospy import rostime
 from sensor_msgs.msg import LaserScan
 import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from actionlib_msgs.msg import GoalStatus
-# from tf2_geometry_msgs import PoseStamped
-# from geometry_msgs.msg import Point, PointStamped, Quaternion, Pose, PoseStamped
+import tf2_ros
+from tf2_geometry_msgs import PoseStamped
+from geometry_msgs.msg import Pose,Point,Quaternion
+from std_msgs.msg import Header
 # import tf.transformations
 
 service_name="tracker_service"
@@ -33,7 +36,7 @@ def move_base(target):
         rospy.loginfo("Waiting for the move_base action server to come up")
     goal = MoveBaseGoal()
     #set up the frame parameters
-    goal.target_pose.header.frame_id = "/base_link"
+    goal.target_pose.header.frame_id = "base_link"
     goal.target_pose.header.stamp = rospy.Time.now()
     # moving towards the goal*/
     goal.target_pose.pose.position.x =  target[0]
@@ -57,11 +60,11 @@ def scan_callback(msg):
     now = rospy.get_time()
     if now-start_timer>subscribe_rate:
         start_timer = now
-        relevantRanges=msg.ranges[240:540]
+        relevantRanges=msg.ranges[270:540]
         filtered=[x for x in relevantRanges if x>0.1]
         # code for following person in front 
         minP = np.min(filtered)
-        theta_deg = (240+relevantRanges.index(minP)/4)
+        theta_deg = (270+relevantRanges.index(minP)/4)
         print("minP: ",minP, " theta: ", theta_deg)
         if minP > dist_threash :
             move_base(polar_to_cartesian(minP,theta_deg))
