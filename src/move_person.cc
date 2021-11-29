@@ -13,6 +13,7 @@ namespace gazebo
     {
       // Store the pointer to the model
       this->model = _parent;
+      // ros::Time::init();
 
       // Listen to the update event. This event is broadcast every
       // simulation iteration.
@@ -70,20 +71,18 @@ namespace gazebo
     private: void AddPoses(){
       double zero=0.0;
       
-      math::Pose p_barista = math::Pose(1.4,6.4,zero,zero,zero,-1.6);
+      math::Pose p_barista = math::Pose(1.4,6.2,zero,zero,zero,-1.6);
       this->poses[0]=p_barista;
-      math::Pose p2 = math::Pose(2.25,6.4,zero,zero,zero,-1.7);
+      math::Pose p2 = math::Pose(2.25,6.2,zero,zero,zero,-1.7);
       this->poses[1]=p2;
-      math::Pose p3 = math::Pose(3.1,6.25,zero,zero,zero,-1.8);
+      math::Pose p3 = math::Pose(3.2,5.8,zero,zero,zero,-2.2);
       this->poses[2]=p3;
-      math::Pose p4 = math::Pose(3.9,5.9,zero,zero,zero,-2);
+      math::Pose p4 = math::Pose(3.9,4.9,zero,zero,zero,-2.5);
       this->poses[3]=p4;
-      math::Pose p5 = math::Pose(4.6,5.3,zero,zero,zero,-2.2);
+      math::Pose p5 = math::Pose(4.2,3.7,zero,zero,zero,-3);
       this->poses[4]=p5;
-      math::Pose p6 = math::Pose(5.1,4.4,zero,zero,zero,-2.7);
+      math::Pose p6 = math::Pose(4.3,2.5,zero,zero,zero,-3.1);
       this->poses[5]=p6;
-      math::Pose p7 = math::Pose(5.3,3.4,zero,zero,zero,-3);
-      this->poses[6]=p7;
 
     }
 
@@ -104,15 +103,13 @@ namespace gazebo
       this->ends[4]=p_end5;
       math::Pose p_end6 = math::Pose(x,y+5*delta,zero,zero,zero,zero);
       this->ends[5]=p_end6;
-      math::Pose p_end7 = math::Pose(x,y+6*delta,zero,zero,zero,zero);
-      this->ends[6]=p_end7;
 
     }
 
     private: void FindMyPose(){
       math::Pose my_pos = this->model->GetWorldPose();
       //only for the people in line
-      for(int i=0;i<7;i++){
+      for(int i=0;i<6;i++){
         math::Pose curr = poses[i];
         if(curr.pos.x == my_pos.pos.x && curr.pos.y == my_pos.pos.y){
           ROS_WARN("parent %s found position", this->model->GetName().c_str());
@@ -143,13 +140,13 @@ namespace gazebo
 
     // 0 - first one in line etc ..
     //poses of people in the line (9 = line length + end point)
-    math::Pose poses[7];
+    math::Pose poses[6];
 
     //next target point to head to
     int next_point = -2;
 
     //end points for all models
-    math::Pose ends[7];
+    math::Pose ends[6];
 
     //own model end point
     math::Pose my_end;
