@@ -18,7 +18,7 @@ from tf.transformations import quaternion_from_euler
 service_name="tracker_service"
 node_name= "tracker_service"
 dist_threash = 1 # meter from person in front
-start_angel = 80
+start_angel = 70
 
 def init_server():
     rospy.init_node(node_name)
@@ -26,8 +26,8 @@ def init_server():
     print("Tracker service is up")
     rospy.spin()
 
-def polar_to_cartesian(radius,theta):
-    return ((radius-dist_threash)*np.cos(np.radians(theta)),(radius-dist_threash)*np.sin(np.radians(theta)))
+def polar_to_cartesian(radius,theta,threash=0):
+    return ((radius-threash)*np.cos(np.radians(theta)),(radius-threash)*np.sin(np.radians(theta)))
 
 def move_base(target,yaw):
     ac = actionlib.SimpleActionClient("move_base", MoveBaseAction)
@@ -60,18 +60,78 @@ def scan_callback(msg):
     minP = np.min(filtered)
     theta_deg = (start_angel+relevantRanges.index(minP)/4)
     print("minP: ",minP, " theta: ", theta_deg)
-    if minP > dist_threash:
-        move_base(polar_to_cartesian(minP,theta_deg-90),theta_deg-90)
-            
+    if minP > dist_threash+0.5:
+        move_base(polar_to_cartesian(minP,theta_deg+270,dist_threash),theta_deg+270)
+
+
+def find_position_by_two_points(r1,theta1,r2,theta2):
+    x1,y1 = polar_to_cartesian(r1,theta1)
+    x2,y2 = polar_to_cartesian(r2,theta2)
+    print(x1," , " ,y1)
+    print(x2," , " ,y2)
+
+    m,b = np.polyfit([x1,x2],[y1,y2],1)
+    if x2>x1 and y2>y1:
+        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2)))
+    if x2>x1 and y2<y1:
+        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2)))
+    if x2<x1 and y2>y1:
+        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2)))
+    if x2<x1 and y2<y1:
+        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2)))
+
+def scan_callback_two_people(msg):
+    threash_to_next_person = 0.6
+    relevantRanges=msg.ranges[start_angel*4:640]
+    filtered=[x for x in relevantRanges if x>0.1]
+    # code for following person in front 
+    per1 = np.min(filtered)
+    filtered_from_per1 = [x for x in filtered if x>per1+threash_to_next_person]
+    per2=np.min(filtered_from_per1)
+    per1_deg = (start_angel+relevantRanges.index(per1)/4)   #person 1 degree from positive side
+    per2_deg = (start_angel + relevantRanges.index(per2)/4) #person 2 degree from positive side
+    
+    print("per1: ",per1, " per1_deg: ", per1_deg)
+    print("per2: ",per2, " per2_deg: ", per2_deg)
+
+    if per1 > dist_threash+0.5:
+        x,y = find_position_by_two_points(per1,per1_deg+270,per2,per2_deg+270)
+        move_base((x,y),per1_deg+270)
+
+
+def point_on_poly(x,y,m,b):
+    allowed_threash = 0.1
+    if np.abs((m*x +b) - y) <allowed_threash: #if point is on the line with at most threash, return True
+        return True
+    return False        
+
+def detect_wall(msg):
+    wall_len = 170 #decide how many points combined considered a wall
+    wall_start = len(msg.ranges)-1 #start the detection from the left!
+    wall_end = wall_start - wall_len
+    while wall_end >= 130*4: #cut the positive 130 angel view
+        x1,y1 = polar_to_cartesian(msg.ranges[wall_start],180-wall_start/4)
+        x2,y2 = polar_to_cartesian(msg.ranges[wall_end],180-wall_end/4)
+        m,b = np.polyfit([x1,x2],[y1,y2],1) #fit to these points a linear line, y=mx+b
+        for i in reversed(range(wall_end,wall_start)):
+            radius = msg.ranges[i]
+            x,y = polar_to_cartesian(radius,180-i/4)
+            if not point_on_poly(x,y,m,b):
+                wall_start = i
+                wall_end = wall_start - wall_len
+                break
+        return True
+                
+    return False
 
 def handle_request(request):
     print("got request, starting to track the person in front ...")
     print("request: ",request)
-    loop_rate = rospy.Rate(0.2) 
-    while True :
+    while True:
         msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
-        scan_callback(msg)
-        loop_rate.sleep()
+        scan_callback_two_people(msg)
+        #scan_callback(msg)
+        #loop_rate.sleep()
         # if wall:
         #     break;
     return TrackerMsgResponse(False)

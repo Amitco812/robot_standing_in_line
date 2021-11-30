@@ -375,9 +375,19 @@
     </model>
     <state world_name='default'>
       <sim_time>4252 54000000</sim_time>
-      <real_time>16 795739352</real_time>
-      <wall_time>1638185942 593322405</wall_time>
-      <iterations>16737</iterations>
+      <real_time>0 0</real_time>
+      <wall_time>1638287452 180642010</wall_time>
+      <iterations>0</iterations>
+      <model name='brick_box_3x1x3'>
+        <pose frame=''>0.2 6.3 -1 0 -0 1.8</pose>
+        <scale>3.5 0.02 1</scale>
+        <link name='chassis'>
+          <pose frame=''>0.2 6.3 0.5 0 -0 1.8</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
       <model name='cafe'>
         <pose frame=''>1.49376 0.742274 -0.2 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -454,8 +464,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>1.4 6.2 0 0 0 -1.6</pose>
-          <velocity>0 0 0 0 0 0</velocity>
+          <pose frame=''>1.4 6.2 0.029052 0 0 -1.6</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -512,7 +522,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>2.25002 6.20001 0 0 0 -1.7</pose>
+          <pose frame=''>2.25 6.2 0 0 0 -1.7</pose>
           <velocity>1e-06 1e-06 0.009145 -0.002024 0.002059 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -629,7 +639,7 @@
         </link>
         <link name='link_7'>
           <pose frame=''>4.2 3.7 0 0 0 -3</pose>
-          <velocity>0 0 0 0 0 0</velocity>
+          <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -687,7 +697,7 @@
         </link>
         <link name='link_7'>
           <pose frame=''>3.2 5.8 0 0 0 -2.2</pose>
-          <velocity>0 0 0 0 0 0</velocity>
+          <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -745,7 +755,7 @@
         </link>
         <link name='link_7'>
           <pose frame=''>3.9 4.9 0 0 0 -2.5</pose>
-          <velocity>0 0 0 0 0 0</velocity>
+          <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -762,7 +772,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-0.574947 -0.707382 5.73249 -0.000115 0.710119 1.20189</pose>
+        <pose frame=''>0.98515 -3.14383 5.67855 -0.000115 0.710119 1.20189</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -3952,6 +3962,51 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.71686 3.257 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+    </model>
+    <model name='brick_box_3x1x3'>
+      <static>1</static>
+      <link name='chassis'>
+        <pose frame=''>0 0 1.5 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>1 0.02 3</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://brick_box_3x1x3/meshes/simple_box.dae</uri>
+              <scale>3.5 0.02 1</scale>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://brick_box_3x1x3/materials/scripts</uri>
+              <uri>model://brick_box_3x1x3/materials/textures</uri>
+              <name>BrickBox/Diffuse</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+      <pose frame=''>0.284979 5.2413 0 0 -0 0</pose>
     </model>
   </world>
 </sdf>
