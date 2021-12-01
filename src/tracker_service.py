@@ -41,7 +41,7 @@ def move_base(target,yaw):
     # moving towards the goal*/
     goal.target_pose.pose.position.x =  target[0]
     goal.target_pose.pose.position.y =  target[1]
-    goal.target_pose.pose.orientation.w = quaternion_from_euler(0,0,np.radians(yaw))[3]
+    goal.target_pose.pose.orientation.w = quaternion_from_euler(0,0,yaw)[3]
     print("target: ",target)
     print("goal location: ", goal)
     ac.send_goal(goal)	
@@ -61,7 +61,7 @@ def scan_callback(msg):
     theta_deg = (start_angel+relevantRanges.index(minP)/4)
     print("minP: ",minP, " theta: ", theta_deg)
     if minP > dist_threash+0.5:
-        move_base(polar_to_cartesian(minP,theta_deg+270,dist_threash),theta_deg+270)
+        move_base(polar_to_cartesian(minP,theta_deg+270,dist_threash),np.radians(theta_deg+270))
 
 
 def find_position_by_two_points(r1,theta1,r2,theta2):
@@ -72,13 +72,13 @@ def find_position_by_two_points(r1,theta1,r2,theta2):
 
     m,b = np.polyfit([x1,x2],[y1,y2],1)
     if x2>x1 and y2>y1:
-        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2)))
+        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2))),m
     if x2>x1 and y2<y1:
-        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2)))
+        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2))),m
     if x2<x1 and y2>y1:
-        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2)))
+        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2))),m
     if x2<x1 and y2<y1:
-        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2)))
+        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2))),m
 
 def scan_callback_two_people(msg):
     threash_to_next_person = 0.6
@@ -95,8 +95,8 @@ def scan_callback_two_people(msg):
     print("per2: ",per2, " per2_deg: ", per2_deg)
 
     if per1 > dist_threash+0.5:
-        x,y = find_position_by_two_points(per1,per1_deg+270,per2,per2_deg+270)
-        move_base((x,y),per1_deg+270)
+        x,y,m = find_position_by_two_points(per1,per1_deg+270,per2,per2_deg+270)
+        move_base((x,y),np.arctan(m))
 
 
 def point_on_poly(x,y,m,b):
@@ -127,11 +127,12 @@ def detect_wall(msg):
 def handle_request(request):
     print("got request, starting to track the person in front ...")
     print("request: ",request)
+    loop_rate=rospy.Rate(2)
     while True:
         msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
         scan_callback_two_people(msg)
         #scan_callback(msg)
-        #loop_rate.sleep()
+        loop_rate.sleep()
         # if wall:
         #     break;
     return TrackerMsgResponse(False)
