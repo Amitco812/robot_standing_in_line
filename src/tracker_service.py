@@ -41,7 +41,12 @@ def move_base(target,yaw):
     # moving towards the goal*/
     goal.target_pose.pose.position.x =  target[0]
     goal.target_pose.pose.position.y =  target[1]
-    goal.target_pose.pose.orientation.w = quaternion_from_euler(0,0,yaw)[3]
+    goal.target_pose.pose.position.z = 0
+    goal_orientation = quaternion_from_euler(0,0,yaw)
+    goal.target_pose.pose.orientation.x = goal_orientation[0]
+    goal.target_pose.pose.orientation.y = goal_orientation[1]
+    goal.target_pose.pose.orientation.z = goal_orientation[2]
+    goal.target_pose.pose.orientation.w = goal_orientation[3]
     print("target: ",target)
     print("goal location: ", goal)
     ac.send_goal(goal)	
@@ -94,7 +99,7 @@ def scan_callback_two_people(msg):
     print("per1: ",per1, " per1_deg: ", per1_deg)
     print("per2: ",per2, " per2_deg: ", per2_deg)
 
-    if per1 > dist_threash+0.5:
+    if per1 > dist_threash + 0.2: #move at least when you have 20cm to move
         x,y,m = find_position_by_two_points(per1,per1_deg+270,per2,per2_deg+270)
         move_base((x,y),np.arctan(m))
 
