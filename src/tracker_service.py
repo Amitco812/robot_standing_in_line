@@ -101,7 +101,7 @@ def scan_callback_two_people(msg):
 
     if per1 > dist_threash + 0.2: #move at least when you have 20cm to move
         x,y,m = find_position_by_two_points(per1,per1_deg+270,per2,per2_deg+270)
-        move_base((x,y),np.arctan(m))
+        move_base((x,y),np.arctan2((2*m+b)-(1*m-b)),2-1)
 
 
 def point_on_poly(x,y,m,b):
