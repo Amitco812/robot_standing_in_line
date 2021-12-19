@@ -69,21 +69,19 @@ def scan_callback(msg):
         move_base(polar_to_cartesian(minP,theta_deg+270,dist_threash),np.radians(theta_deg+270))
 
 
-def find_position_by_two_points(r1,theta1,r2,theta2):
-    x1,y1 = polar_to_cartesian(r1,theta1)
-    x2,y2 = polar_to_cartesian(r2,theta2)
+def find_position_by_two_points(x1,y1,x2,y2):
     print(x1," , " ,y1)
     print(x2," , " ,y2)
 
     m,b = np.polyfit([x1,x2],[y1,y2],1)
     if x2>x1 and y2>y1:
-        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2))),m
+        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2)))
     if x2>x1 and y2<y1:
-        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2))),m
+        return x1-dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2)))
     if x2<x1 and y2>y1:
-        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2))),m
+        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1-m*dist_threash*(np.sqrt(1/(1+m**2)))
     if x2<x1 and y2<y1:
-        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2))),m
+        return x1+dist_threash*(np.sqrt(1/(1+m**2))),y1+m*dist_threash*(np.sqrt(1/(1+m**2)))
 
 def scan_callback_two_people(msg):
     threash_to_next_person = 0.6
@@ -100,8 +98,10 @@ def scan_callback_two_people(msg):
     print("per2: ",per2, " per2_deg: ", per2_deg)
 
     if per1 > dist_threash + 0.2: #move at least when you have 20cm to move
-        x,y,m = find_position_by_two_points(per1,per1_deg+270,per2,per2_deg+270)
-        move_base((x,y),np.arctan(m))
+        x1,y1 = polar_to_cartesian(per1,per1_deg+270)
+        x2,y2 = polar_to_cartesian(per2,per2_deg+270)
+        x,y = find_position_by_two_points(x1,y1,x2,y2)
+        move_base((x,y),np.arctan2(y2-y1,x2-x1))
 
 
 def point_on_poly(x,y,m,b):
