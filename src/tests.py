@@ -172,11 +172,10 @@ class Test(TestCase):
 
     def test_find_orthogonal_line_through_point(self):
         slopes_and_points = [(2,(1,2)),(3,(2,2)),(-2,(4,5))]
-        polys = [(-0.5,2.5),(-1/3,2+2/3),(-1/4,13)]
+        polys = [(-0.5,2.5),(-1.0/3,2.0+2.0/3),(1.0/2,3)]
         for idx,slope_and_point in enumerate(slopes_and_points):
             m = slope_and_point[0]
             x,y = slope_and_point[1]
-            print("m: ",m,"x: ",x,"y: ",y)
             self.assertEqual(polys[idx],tracker.find_orthogonal_line_through_point(m,x,y))
 
 

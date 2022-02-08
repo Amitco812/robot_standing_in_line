@@ -180,7 +180,7 @@ def find_people():
 
 
 def find_orthogonal_line_through_point(m,x,y):
-    slope = -1/m if m != 0 else 0
+    slope = -1.0/m if m != 0 else 0
     return slope,y-slope*x
 
 
