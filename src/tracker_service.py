@@ -30,6 +30,14 @@ def init_server():
     print("Tracker service is up")
     rospy.spin()
 
+'''
+Params: 
+*radius - the radius of the point
+*theta - the angle
+*threash - threashold to stand from the original point
+Return Value - the point on x,y axes
+description - 
+'''
 def polar_to_cartesian(radius,theta,threash=0):
     return ((radius-threash)*np.cos(np.radians(theta)),(radius-threash)*np.sin(np.radians(theta)))
 
@@ -59,12 +67,25 @@ def move_base(target,yaw):
     else:
         rospy.loginfo("The robot failed to reach the end of the queue")
 
+
+#https://math.stackexchange.com/questions/656500/given-a-point-slope-and-a-distance-along-that-slope-easily-find-a-second-p
 def dy(distance, m):
-    return m*dx(distance, m)
+    return np.abs(m*dx(distance, m))
 
 def dx(distance, m):
-    return np.sqrt(distance/(m**2+1))
+    return distance/np.sqrt(m**2+1)
 
+
+'''
+Params: 
+*point1 (x1,y1) - The closest point to the robot
+*point2 (x2,y2) - The second closest point to the robot 
+Return Value - The point that the robot needs to stand
+Description - 
+The robot can see points (x1,y1) and (x2,y2) from the first and forth quadrants only
+because of his laser scanning range.
+
+'''
 def find_position_by_two_points(x1,y1,x2,y2):
     print("pos1: ",x1,"," ,y1," pos2: ",x2," , ",y2)
     m,b = np.polyfit([x1,x2],[y1,y2],1)
@@ -77,16 +98,24 @@ def find_position_by_two_points(x1,y1,x2,y2):
     if x2<x1 and y2<y1:
         return x1+dx(dist_threash,m), y1+dy(dist_threash,m)
 
+
+'''
+Params: 
+*laser_msg - 
+Return Value - the point on x,y axes
+description - 
+
+'''
 def find_two_closest_points(laser_msg):
-    threash_to_next_person = 0.4
-    relevantRanges=laser_msg.ranges[start_angel*4:640]
+    threash_to_next_person = 0.4                                # min distance to even record 
+    relevantRanges = laser_msg.ranges[start_angel*4:640]
     filtered=[x for x in relevantRanges if x>0.1]
-    # code for following person in front 
+    # code for following person in front
     minp1 = np.min(filtered)
     filtered_from_per1 = [x for x in filtered if x>minp1+threash_to_next_person]
     minp2=np.min(filtered_from_per1)
-    minp1_deg = (start_angel+relevantRanges.index(minp1)/4)   #person 1 degree from positive side
-    minp2_deg = (start_angel + relevantRanges.index(minp2)/4) #person 2 degree from positive side
+    minp1_deg = (start_angel+relevantRanges.index(minp1)/4)     #person 1 degree from positive side
+    minp2_deg = (start_angel + relevantRanges.index(minp2)/4)   #person 2 degree from positive side
     print("minp1: ",minp1, " minp1_deg: ", minp1_deg)
     print("minp2: ",minp2, " minp2_deg: ", minp2_deg)
     return minp1,minp1_deg,minp2,minp2_deg
@@ -104,7 +133,7 @@ def point_on_poly(x,y,m,b):
     allowed_threash = 0.05
     return np.abs((m*x +b) - y) <allowed_threash #if point is on the line with at most threash, return True        
 
-def detect_wall(laser_msg,minp1,minp1_deg,minp2,minp2_deg):
+def detect_wall(laser_msg,minp1_deg,minp2_deg):
     points_allowed_not_on_poly = 30
     angel_offset = 30 # we look in (min-offset,max+offset) for a wall
     min_wall_deg = np.max([np.min([minp1_deg,minp2_deg]) - angel_offset,0]) #minimum angle to look for a wall, at least zero
@@ -114,7 +143,7 @@ def detect_wall(laser_msg,minp1,minp1_deg,minp2,minp2_deg):
     wall_start = min_wall_deg * 4 #start from right side
     wall_end = wall_start + wall_len #current wall end view
     minDist  =100
-    while wall_end <= max_wall_deg*4: 
+    while wall_end <= max_wall_deg*4-1: 
         x1,y1 = polar_to_cartesian(laser_msg.ranges[wall_start],270+wall_start/4)
         x2,y2 = polar_to_cartesian(laser_msg.ranges[wall_end],270+wall_end/4)
         m,b = np.polyfit([x1,x2],[y1,y2],1) #fit to these points a linear line, y=mx+b
@@ -163,7 +192,7 @@ def handle_request(request):
     while True:
         laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
         minp1,minp1_deg,minp2,minp2_deg = find_two_closest_points(laser_msg) #returns angle from the laser view!!
-        m_wall,b_wall = detect_wall(laser_msg,minp1,minp1_deg,minp2,minp2_deg)
+        m_wall,b_wall = detect_wall(laser_msg,minp1_deg,minp2_deg)
         print("wall: m: ",m_wall,"b: ",b_wall)
         x2,y2 = polar_to_cartesian(minp2,minp2_deg+270)
         if (not isinstance(m_wall,bool)) and point_on_poly(x2,y2,m_wall,b_wall): #if the second point is a wall, break the loop
