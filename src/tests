@@ -60,45 +60,63 @@ class Test(TestCase):
             self.assertTrue(np.isclose(p_out[1],p_expected[1],0,err_threash))
         
 
-
-    #Nitzan
     def test_find_position_by_two_points_first_if(self):
+        err_threash = 0.001
         #firstIF!!!!!!!!!!1
         #input1 = 5,12 ,7,14
         #output1 = (10-sqrt(2))/2,(24-sqrt(2))/2
         x,y = tracker.find_position_by_two_points(5,12,7,14)
-        self.assertEquals(x,(10-np.sqrt(2))/2)
-        self.assertEquals(y,(24-np.sqrt(2))/2)
+        self.assertTrue(np.isclose(x,(10-np.sqrt(2))/2,0,err_threash))
+        self.assertTrue(np.isclose(y,(24-np.sqrt(2))/2,0,err_threash))
         #input2 = 2,7 ,4,11
         #output2 = (10-sqrt(5))/5,(35-2sqrt(5))/5
         x,y = tracker.find_position_by_two_points(2,7,4,11)
-        self.assertEquals(x,(10-np.sqrt(5))/5)
-        self.assertEquals(y,(35-2*np.sqrt(5))/5)
+        self.assertTrue(np.isclose(x,(10-np.sqrt(5))/5,0,err_threash))
+        self.assertTrue(np.isclose(y,(35-2*np.sqrt(5))/5,0,err_threash))
 
     def test_find_position_by_two_points_second_if(self):
-
+        err_threash = 0.001
         #secounfIF!!!!!
         #input3 = 0,3 ,3,2
         #output3 = -3sqrt(10)/10,(30+sqrt(10))/10
+        x,y = tracker.find_position_by_two_points(0,3,3,2)
+        self.assertTrue(np.isclose(x,-3*np.sqrt(10)/10,0,err_threash))
+        self.assertTrue(np.isclose(y,(30+np.sqrt(10))/10,0,err_threash))
+
         #Input4 = 2,3 ,5,1.5
-        #Output4 = (10-2sqrt(5))/5 , (15-sqrt(5))/5
-        
+        #Output4 = (10-2sqrt(5))/5 , (15+sqrt(5))/5
+        x,y = tracker.find_position_by_two_points(2,3,5,1.5)
+        self.assertTrue(np.isclose(x,(10-2*np.sqrt(5))/5,0,err_threash))
+        self.assertTrue(np.isclose(y,(15+np.sqrt(5))/5,0,err_threash))
+
+    def test_find_position_by_two_points_third_if(self):
+        err_threash = 0.001
         #thirdIF!!!!!!!
         #Input5 = 1.5,1 , 0.5,3
         #Output5 = (15+2sqrt(5))/10 , (5-2sqrt(5))/5
+        x,y = tracker.find_position_by_two_points(1.5,1,0.5,3)
+        self.assertTrue(np.isclose(x,(15+2*np.sqrt(5))/10,0,err_threash))
+        self.assertTrue(np.isclose(y,(5-2*np.sqrt(5))/5,0,err_threash))
+        
         #Input6 = 1,0 , 0,4
         #Output6 = (17+sqrt(17))/17 , -4sqrt(17)/17
-       
+        x,y = tracker.find_position_by_two_points(1,0,0,4)
+        self.assertTrue(np.isclose(x,(17+np.sqrt(17))/17,0,err_threash))
+        self.assertTrue(np.isclose(y,(-4*np.sqrt(17))/17,0,err_threash))
+    def test_find_position_by_two_points_forth_if(self):
+        err_threash = 0.001
         #ForthIf!!!!!
         #Input7 = 2.5,0 , 0,-5
         #Output7 = (25+2sqrt(5))/10,2sqrt(5)/5
+        x,y = tracker.find_position_by_two_points(2.5,0,0,-5)
+        self.assertTrue(np.isclose(x,(25+2*np.sqrt(5))/10,0,err_threash))
+        self.assertTrue(np.isclose(y,(2*np.sqrt(5))/5,0,err_threash))
+
         #Input8 = 3,-2 , 2,-4
         #Output8 = (15+sqrt(5))/5 , (-10+2sqrt(5))/5
-        self.fail()
-        
-        
-    
-            
+        x,y = tracker.find_position_by_two_points(3,-2,2,-4)
+        self.assertTrue(np.isclose(x,(15+np.sqrt(5))/5,0,err_threash))
+        self.assertTrue(np.isclose(y,(-10+2*np.sqrt(5))/5,0,err_threash))          
 
     def test_find_two_closest_points_main_test_case(self):
         laser = list(np.random.rand(720))
