@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 '''
 Class LineTracker - A component which tracks a line
@@ -6,39 +6,48 @@ Fields:
 *done_tracking - True iff We are done tracking (F.E we are first in line) 
 *prev_positions - A log for points we went through
 '''
-class LineTracker(ABC):
+class LineTracker(ABCMeta):
     def __init__(self):
         self.done_tracking = False
         self.prev_positions = []
 
-    
     '''
-    @Description: returns true iff the tracking has ended
+    @Pre: 
+        None
+    @Params: 
+        None
+    @Return Value:
+        True iff the tracking has ended
+    Description: 
+        None
     '''
     def done_tracking(self):
         return self.done_tracking
 
-    
     '''
-    @Description: Returns the next goal to go to in line
-    @Pre: done_tracking = False
+    @Pre: 
+        done_tracking = False
+    @Params: 
+        None
+    @Return Value:
+        boolean- should_move
+        tuple - (x,y,yaw) of goal location and rotation
+    Description: 
+        The next goal to go to in line
     '''
     @abstractmethod
     def get_next_position_in_line(self):
         raise NotImplementedError("This Function Is Not Implemented!")
-
     
     '''
-    @Description: move to the location provided using a strategy of your choice (move_base or any other way)
+    @Pre: 
+        None
     @Params: 
-    *data - the data needed to perform the action. (position, yaw, etc ..)
-    '''
-    @abstractmethod
-    def move(self,data):
-        raise NotImplementedError("This Function Is Not Implemented!")
-
-    '''
-    @Description: return the previous positions (for debugging purposes etc ..)
+        None
+    @Return Value:
+        The previous positions (for debugging purposes etc ..)
+    Description: 
+        None
     '''
     def get_prev_positions(self):
         return self.prev_positions

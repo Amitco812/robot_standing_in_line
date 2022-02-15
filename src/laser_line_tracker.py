@@ -1,137 +1,106 @@
 import rospy
 from line_tracker import LineTracker
 from wall_detector import WallDetector
-from utils import dx,dy,polar_to_cartesian,move_base,find_two_closest_points,point_on_poly
+from utils import dx,dy,polar_to_cartesian,find_two_closest_points,point_on_poly,find_orthogonal_line_through_point
 import numpy as np
-from move_base_msgs.msg import MoveBaseGoal
 from sensor_msgs.msg import LaserScan
-from tf.transformations import quaternion_from_euler
 
 
 class LaserLineTracker(LineTracker):
-    def __init__(self,wall_detector:WallDetector,dist_threash=1,dist_from_wall=0.6):
-        self.dist_threash = dist_threash
-        self.should_move = False
+    '''
+    
+    @Params:
+        *wall_detector- WallDetector
+        *dist_tresh- float
+        *dist_from_wall - int 
+    '''
+    def __init__(self,wall_detector,dist_thresh,dist_from_wall):
+        self.dist_thresh = dist_thresh
         self.wall_detector=wall_detector
         self.dist_from_wall = dist_from_wall
-
+        self.p_last_person = None
+        
 
     '''
-    @Description - 
-    The robot can see points (x1,y1) and (x2,y2) from the first and forth quadrants only
-    because of his laser scanning range.
-    @Params: 
-    *point1 (x1,y1) - The closest point to the robot
-    *point2 (x2,y2) - The second closest point to the robot 
-    Return Value - The point that the robot needs to stand
-    
+    @ PreCondition:
+        x1!=x2
+    @Params:
+        *point1 (x1,y1) - The closest point to the robot
+        *point2 (x2,y2) - The second closest point to the robot 
+    @Return Value:
+        The point that the robot needs to stand.
+    @Description:
+        The robot can see points (x1,y1) and (x2,y2) from the first and forth quadrants only
+        because of his laser scanning range.
     '''
     def find_position_by_two_points(self,x1,y1,x2,y2):
         print("pos1: ",x1,"," ,y1," pos2: ",x2," , ",y2)
         m,_ = np.polyfit([x1,x2],[y1,y2],1)
         if x2>x1 and y2>y1:
-            return x1-dx(self.dist_threash,m), y1-dy(self.dist_threash,m)
+            return x1-dx(self.dist_thresh,m), y1-dy(self.dist_thresh,m)
         if x2>x1 and y2<y1:
-            return x1-dx(self.dist_threash,m), y1+dy(self.dist_threash,m)
+            return x1-dx(self.dist_thresh,m), y1+dy(self.dist_thresh,m)
         if x2<x1 and y2>y1:
-            return x1+dx(self.dist_threash,m), y1-dy(self.dist_threash,m)
+            return x1+dx(self.dist_thresh,m), y1-dy(self.dist_thresh,m)
         if x2<x1 and y2<y1:
-            return x1+dx(self.dist_threash,m), y1+dy(self.dist_threash,m)
-    
-    '''   
-    x_last_person,y_last_person,m_wall,b_wall = None,None,None,None
-    while True:
-        laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
-        minp1,minp1_deg,minp2,minp2_deg = find_two_closest_points(laser_msg) #returns angle from the laser view!!
-        m_wall,b_wall = detect_wall(laser_msg,minp1_deg,minp2_deg)
-        print("wall: m: ",m_wall,"b: ",b_wall)
-        x2,y2 = polar_to_cartesian(minp2,minp2_deg+270)
-        if (not isinstance(m_wall,bool)) and point_on_poly(x2,y2,m_wall,b_wall): #if the second point is a wall, break the loop
-            x_last_person,y_last_person = polar_to_cartesian(minp1,minp1_deg+270)
-            print("x_last_person: ",x_last_person,"y_last_person: ",y_last_person,"and wall is: m: ",m_wall,"b_wall: ",b_wall)
-            break
-        scan_callback_two_people(minp1,minp1_deg,minp2,minp2_deg)
-        loop_rate.sleep()
-    #from now on there is only one person and a wall
+            return x1+dx(self.dist_thresh,m), y1+dy(self.dist_thresh,m)
+        # x1==x2 case is too rare
 
-    print("loop broken! (second near point is a wall)")
-    #while last point is not the wall
-    last_point_x,last_point_y = None,None
-    while ((last_point_x is None) and (last_point_y is None)) or (not point_on_poly(last_point_x,last_point_y,m_wall,b_wall)):
-        laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
-        relevantRanges=laser_msg.ranges[start_angel*4:640]
-        filtered=[x for x in relevantRanges if x>0.1]
-        minp1 = np.min(filtered)
-        minp1_deg = (start_angel+relevantRanges.index(minp1)/4)
-        last_point_x,last_point_y = polar_to_cartesian(minp1,minp1_deg+270)
-        loop_rate.sleep()
-
-    #now we know we are the only ones in front of the wall
-    m_last_person_and_wall,b_last_person_and_wall = find_orthogonal_line_through_point(m_wall,x_last_person,y_last_person)
-    x_intersect = (b_last_person_and_wall - b_wall)/(m_wall - m_last_person_and_wall) # x = b2 - b1/ m1 - m2
-    y_intersect = x_intersect * m_wall + b_wall # y = the x value of some line
-    goal = (x_intersect-dx(dist_from_wall,m_last_person_and_wall), y_intersect-dy(dist_from_wall,m_last_person_and_wall))
-    print("m_last_person_and_wall: ",m_last_person_and_wall,"b_last_person_and_wall: ",b_last_person_and_wall,
-    "x_intersect: ",x_intersect,"y_intersect: ",y_intersect,"goal: ",goal)
-    move_base(goal,0)
     '''
-
+    notice : at the case that the line contains only one person, the variable self.p_last_person will be taken too early!
+    @ PreCondition:
+        At least 1 person in the line.
+        Armadillo publishes to laser topic.
+    @Params:
+        None
+    @Return Value:
+        should_move, tuple of 3 marks the location to go to.
+    @Description:
+        The function returns the next position the robot needs to follow. 
+        After retrieving the two closest points to the robot, we check whether those points are on the wall or not.
+        If there are no people in line we take the last position of a person we saw and call 'no_people_in_line'.
+        If we see one person we update self.p_last_person for later use. 
+    '''
     def get_next_position_in_line(self):
         laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
-        minp1,minp1_deg,minp2,minp2_deg = find_two_closest_points(laser_msg) #returns angle from the laser view!!
+        minp1,minp1_deg,minp2,minp2_deg = find_two_closest_points(laser_msg)        # returns angle from the laser view!!
         x1,y1 = polar_to_cartesian(minp1,minp1_deg+270)
         x2,y2 = polar_to_cartesian(minp2,minp2_deg+270)
         wall = self.wall_detector.detect_wall()
-        if wall: #if wall found
+        if wall:                                                                    # if wall found
             m_wall,b_wall = wall
-            if point_on_poly(x2,y2,m_wall,b_wall):
-                x_last_person,y_last_person = polar_to_cartesian(minp1,minp1_deg+270)
-                print("x_last_person: ",x_last_person,"y_last_person: ",y_last_person,"and wall is: m: ",m_wall,"b_wall: ",b_wall)              
-
-    '''
-    def get_next_position_in_line(self):
-        laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
-        minp1,minp1_deg,minp2,minp2_deg = find_two_closest_points(laser_msg) #returns angle from the laser view!!
-        x1,y1 = polar_to_cartesian(minp1,minp1_deg+270)
-        x2,y2 = polar_to_cartesian(minp2,minp2_deg+270)
+            if self.p_last_person==None and point_on_poly(x2,y2,m_wall,b_wall):     # the second point is a wall, first time only!!
+                self.p_last_person = polar_to_cartesian(minp1,minp1_deg+270)
+                print("x_last_person: ",self.p_last_person[0],"y_last_person: ",
+                self.p_last_person[1],"and wall is: m: ",m_wall,"b_wall: ",b_wall)
+            elif self.p_last_person!=None and point_on_poly(x1,y1,m_wall,b_wall):   # no people in line, only wall (we have the last person point)               
+                return True, self.no_people_in_line(m_wall, b_wall)
+            else: # no people in line, no last person point contradicts preconditions               
+                pass
         yaw = np.arctan2(y2-y1,x2-x1)
-        self.should_move =  minp1 > self.dist_threash + 0.6 #move at least when you have 60cm to move
-        return self.find_position_by_two_points(x1,y1,x2,y2),yaw
-    '''
+        should_move =  minp1 > self.dist_thresh + 0.6                              # move at least when you have 60cm to move
+        x,y=self.find_position_by_two_points(x1,y1,x2,y2)
+        return should_move, (x,y,yaw)                                               # 2 people
     
-
-
     '''
-    @Description: Move if you have 60cm at least
+    @Pre:
+        m_wall != m_last_person_and_wall
     @Params:
-    *data - a dictionary with data on the two closest points
+        *m_wall- The incline of the wall from robot's prespective
+        *b_wall- The b of the line
+    @Return Value:
+        x,y and yaw of the new position the robot should go to.
+    Description:
+        The function calculates the new position of the robot to go to.
+        This happens by taking the wall line and make a orthognal line with it and the last person in line.
+        After finding the orthognal line, we find the point on wall that intesects the wall line and the perpendicular line.
+        the robot is placed on the perpendicular line at a 'dist_from_wall' from the intersaction point on the wall.
     '''
-    def move(self,data):
-        if self.should_move:
-            x,y,yaw = data['x'],data['y'],data['yaw']
-            goal = self.preapare_goal(x,y,yaw)
-            move_base(goal)
-
-    '''
-    @Params:
-    *(x,y)- traget location
-    *yaw- the target yaw
-    '''
-    def preapare_goal(self,x,y,yaw):
-        goal = MoveBaseGoal()
-        #set up the frame parameters
-        goal.target_pose.header.frame_id = "base_footprint"
-        goal.target_pose.header.stamp = rospy.Time.now()
-        # moving towards the goal*/
-        goal.target_pose.pose.position.x =  x
-        goal.target_pose.pose.position.y =  y
-        goal.target_pose.pose.position.z = 0
-        goal_orientation = quaternion_from_euler(0,0,yaw)
-        goal.target_pose.pose.orientation.x = goal_orientation[0]
-        goal.target_pose.pose.orientation.y = goal_orientation[1]
-        goal.target_pose.pose.orientation.z = goal_orientation[2]
-        goal.target_pose.pose.orientation.w = goal_orientation[3]
-        return goal
-        
-
-    
+    def no_people_in_line(self, m_wall,b_wall):
+        m_last_person_and_wall,b_last_person_and_wall = find_orthogonal_line_through_point(m_wall,self.p_last_person[0],self.p_last_person[1])
+        x_intersect = (b_last_person_and_wall - b_wall)/(m_wall - m_last_person_and_wall)       # x = b2 - b1/ m1 - m2
+        y_intersect = x_intersect * m_wall + b_wall                                             # y = the x value of some line
+        goal = (x_intersect-dx(self.dist_from_wall,m_last_person_and_wall), y_intersect-dy(self.dist_from_wall,m_last_person_and_wall))
+        print("m_last_person_and_wall: ",m_last_person_and_wall,"b_last_person_and_wall: ",b_last_person_and_wall,
+                "x_intersect: ",x_intersect,"y_intersect: ",y_intersect,"goal: ",goal)
+        return x_intersect , y_intersect , m_last_person_and_wall
