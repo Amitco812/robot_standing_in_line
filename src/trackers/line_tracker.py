@@ -11,7 +11,7 @@ Fields:
 
 
 @add_metaclass(ABCMeta)
-class LineTracker():
+class LineTracker:
     def __init__(self):
         self.done_tracking = False
         self.prev_positions = []

@@ -5,6 +5,7 @@ from line_detector.srv import ObjectDetection
 
 class FusedLineTracker(LineTracker):
     def __init__(self):
+        super().__init__()
         self.object_scanning_service_name = "object_scanning_service"
         self.line_classes = ['person']
 

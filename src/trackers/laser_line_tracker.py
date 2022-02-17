@@ -15,6 +15,7 @@ class LaserLineTracker(LineTracker):
     '''
 
     def __init__(self, wall_detector, dist_thresh=1.0, dist_from_wall=0.6):
+        super().__init__()
         self.wall_detector = wall_detector
         self.dist_thresh = dist_thresh
         self.dist_from_wall = dist_from_wall

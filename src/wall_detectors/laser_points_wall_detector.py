@@ -39,7 +39,7 @@ class LaserPointsWallDetector(WallDetector):
         # current wall end view
         wall_end = wall_start + self.wall_len
         while wall_end <= max_wall_deg*4-1:
-            found_wall, data = self.__find_wall_in_range(
+            found_wall, data = self.find_wall_in_range(
                 wall_start, wall_end, laser_msg)
             if found_wall:
                 return data
@@ -66,7 +66,7 @@ class LaserPointsWallDetector(WallDetector):
         self.points_allowed_not_on_poly the potential wall fails. If iterates all points and "most" are on wall line then functions succeeds.
     '''
 
-    def __find_wall_in_range(self, wall_start, wall_end, laser_msg):
+    def find_wall_in_range(self, wall_start, wall_end, laser_msg):
         x1, y1 = polar_to_cartesian(
             laser_msg.ranges[wall_start], 270+wall_start/4)
         x2, y2 = polar_to_cartesian(laser_msg.ranges[wall_end], 270+wall_end/4)
