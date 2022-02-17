@@ -1,22 +1,21 @@
-import rospy
-from line_tracker import LineTracker
-from utils import dx, dy, polar_to_cartesian, find_two_closest_points, point_on_poly, find_orthogonal_line_through_point
-import numpy as np
 from sensor_msgs.msg import LaserScan
+import numpy as np
+from utils import dx, dy, polar_to_cartesian, find_two_closest_points, point_on_poly, find_orthogonal_line_through_point
+from line_tracker import LineTracker
+from laser_data_real import LaserDataReal
 
 
 class LaserLineTracker(LineTracker):
     '''
-
     @Params:
         *wall_detector- WallDetector
         *dist_tresh- float
         *dist_from_wall - int
     '''
 
-    def __init__(self, wall_detector, dist_thresh=1.0, dist_from_wall=0.6):
-        super().__init__()
+    def __init__(self, wall_detector, laser_data_generator=LaserDataReal(), dist_thresh=1.0, dist_from_wall=0.6):
         self.wall_detector = wall_detector
+        self.laser_data_generator = laser_data_generator
         self.dist_thresh = dist_thresh
         self.dist_from_wall = dist_from_wall
         self.p_last_person = None
@@ -64,13 +63,13 @@ class LaserLineTracker(LineTracker):
     '''
 
     def get_next_position_in_line(self):
-        laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
+        laser_msg = self.laser_data_generator.get_laser_data()
         minp1, minp1_deg, minp2, minp2_deg = find_two_closest_points(
-            laser_msg)        # returns angle from the laser view!!
+            laser_msg)         # returns angle from the laser view!!
         x1, y1 = polar_to_cartesian(minp1, minp1_deg+270)
         x2, y2 = polar_to_cartesian(minp2, minp2_deg+270)
         wall = self.wall_detector.detect_wall()
-        if wall:                                                                    # if wall found
+        if wall:                                                                        # if wall found
             m_wall, b_wall = wall
             # the second point is a wall, first time only!!
             if self.p_last_person == None and point_on_poly(x2, y2, m_wall, b_wall):
@@ -80,7 +79,8 @@ class LaserLineTracker(LineTracker):
             # no people in line, only wall (we have the last person point)
             elif self.p_last_person != None and point_on_poly(x1, y1, m_wall, b_wall):
                 return True, self.no_people_in_line(m_wall, b_wall)
-            else:  # no people in line, no last person point contradicts preconditions
+            # no people in line, no last person point contradicts preconditions
+            else:
                 raise Exception("Empty Line Case")
         yaw = np.arctan2(y2-y1, x2-x1)
         # move at least when you have 60cm to move

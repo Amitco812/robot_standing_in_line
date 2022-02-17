@@ -1,12 +1,12 @@
+from laser_data_real import LaserDataReal
 from wall_detector import WallDetector
-import rospy
 import numpy as np
 from utils import find_two_closest_points, polar_to_cartesian, point_on_poly
-from sensor_msgs.msg import LaserScan
 
 
 class LaserPointsWallDetector(WallDetector):
-    def __init__(self, points_allowed_not_on_poly=30, angel_offset=30, wall_len=120):
+    def __init__(self, laser_data_generator=LaserDataReal(), points_allowed_not_on_poly=30, angel_offset=30, wall_len=120):
+        self.laser_data_generator = laser_data_generator
         self.points_allowed_not_on_poly = points_allowed_not_on_poly  # point is 1/4 angle
         self.angel_offset = angel_offset
         self.wall_len = wall_len  # decide how many points combined considered a wall
@@ -24,7 +24,7 @@ class LaserPointsWallDetector(WallDetector):
     '''
 
     def detect_wall(self):
-        laser_msg = rospy.wait_for_message('/scan', LaserScan, timeout=None)
+        laser_msg = self.laser_data_generator.get_laser_data()
         _, minp1_deg, _, minp2_deg = find_two_closest_points(
             laser_msg)                    # returns angle from the laser view!!
         # minimum angle to look for a wall, at least zero
@@ -35,15 +35,17 @@ class LaserPointsWallDetector(WallDetector):
             [np.max([minp1_deg, minp2_deg]) + self.angel_offset, 180])
         print("min wall deg: ", min_wall_deg, "max wall deg: ", max_wall_deg)
         # start from right side
-        wall_start = min_wall_deg * 4
+        wall_start = int(min_wall_deg * 4)
         # current wall end view
-        wall_end = wall_start + self.wall_len
+        wall_end = int(wall_start + self.wall_len)
         while wall_end <= max_wall_deg*4-1:
             found_wall, data = self.find_wall_in_range(
                 wall_start, wall_end, laser_msg)
             if found_wall:
+                # here data is (m,b)
                 return data
             else:
+                # here data is first_idx_not_on_poly
                 wall_start = data
                 wall_end = wall_start + self.wall_len
         return False
@@ -68,15 +70,16 @@ class LaserPointsWallDetector(WallDetector):
 
     def find_wall_in_range(self, wall_start, wall_end, laser_msg):
         x1, y1 = polar_to_cartesian(
-            laser_msg.ranges[wall_start], 270+wall_start/4)
-        x2, y2 = polar_to_cartesian(laser_msg.ranges[wall_end], 270+wall_end/4)
+            laser_msg.ranges[wall_start], 270+wall_start/4.0)
+        x2, y2 = polar_to_cartesian(
+            laser_msg.ranges[wall_end], 270+wall_end/4.0)
         m, b = np.polyfit([x1, x2], [y1, y2], 1)
         first_idx_not_on_poly = wall_start
         first_seen = True
         points_not_on_poly = 0
         for i in range(wall_start, wall_end):
             radius = laser_msg.ranges[i]
-            x, y = polar_to_cartesian(radius, 270+i/4)
+            x, y = polar_to_cartesian(radius, 270+i/4.0)
             if not point_on_poly(x, y, m, b):
                 points_not_on_poly += 1                  # increment amount of points not on poly
                 if first_seen:                          # save first index which is not on the poly
@@ -84,6 +87,5 @@ class LaserPointsWallDetector(WallDetector):
                     first_seen = False
             if points_not_on_poly >= self.points_allowed_not_on_poly:
                 return False, first_idx_not_on_poly
-        if points_not_on_poly < self.points_allowed_not_on_poly:
-            # return poly of the wall
-            return True, (m, b)
+        # return poly of the wall
+        return True, (m, b)

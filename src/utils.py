@@ -103,9 +103,9 @@ def find_two_closest_points(laser_msg, thresh_to_next_person=0.4, start_angel=70
                           minp1+thresh_to_next_person]
     minp2 = np.min(filtered_from_per1)
     # person 1 degree from positive side
-    minp1_deg = int(start_angel+relevant_ranges.index(minp1)/4)
+    minp1_deg = start_angel+relevant_ranges.index(minp1)/4.0
     # person 2 degree from positive side
-    minp2_deg = int(start_angel + relevant_ranges.index(minp2)/4)
+    minp2_deg = start_angel + relevant_ranges.index(minp2)/4.0
     print("minp1: ", minp1, " minp1_deg: ", minp1_deg)
     print("minp2: ", minp2, " minp2_deg: ", minp2_deg)
     return minp1, minp1_deg, minp2, minp2_deg
