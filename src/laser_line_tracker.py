@@ -20,6 +20,9 @@ class LaserLineTracker(LineTracker):
         self.dist_from_wall = dist_from_wall
         self.p_last_person = None
 
+    def set_p_last_person(self, point):
+        self.p_last_person = point
+
     '''
     @ PreCondition:
         x1!=x2
@@ -78,7 +81,7 @@ class LaserLineTracker(LineTracker):
                       self.p_last_person[1], "and wall is: m: ", m_wall, "b_wall: ", b_wall)
             # no people in line, only wall (we have the last person point)
             elif self.p_last_person != None and point_on_poly(x1, y1, m_wall, b_wall):
-                return True, self.no_people_in_line(m_wall, b_wall)
+                return True, self.find_position_in_front_of_wall(m_wall, b_wall)
             # no people in line, no last person point contradicts preconditions
             else:
                 raise Exception("Empty Line Case")
@@ -104,15 +107,17 @@ class LaserLineTracker(LineTracker):
         the robot is placed on the perpendicular line at a 'dist_from_wall' from the intersaction point on the wall.
     '''
 
-    def no_people_in_line(self, m_wall, b_wall):
+    def find_position_in_front_of_wall(self, m_wall, b_wall):
         m_last_person_and_wall, b_last_person_and_wall = find_orthogonal_line_through_point(
             m_wall, self.p_last_person[0], self.p_last_person[1])
         x_intersect = (b_last_person_and_wall - b_wall)/(m_wall -
                                                          m_last_person_and_wall)       # x = b2 - b1/ m1 - m2
         # y = the x value of some line
         y_intersect = x_intersect * m_wall + b_wall
-        goal = (x_intersect-dx(self.dist_from_wall, m_last_person_and_wall),
-                y_intersect-dy(self.dist_from_wall, m_last_person_and_wall))
+        sign_x = 1 if x_intersect < self.p_last_person[0] else -1
+        sign_y = 1 if y_intersect < self.p_last_person[1] else -1
+        goal = (x_intersect+sign_x*dx(self.dist_from_wall, m_last_person_and_wall),
+                y_intersect+sign_y*dy(self.dist_from_wall, m_last_person_and_wall))
         print("m_last_person_and_wall: ", m_last_person_and_wall, "b_last_person_and_wall: ", b_last_person_and_wall,
               "x_intersect: ", x_intersect, "y_intersect: ", y_intersect, "goal: ", goal)
-        return x_intersect, y_intersect, m_last_person_and_wall
+        return goal[0], goal[1], m_last_person_and_wall

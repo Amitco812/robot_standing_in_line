@@ -53,7 +53,7 @@ class Test_TestLaserLineTracker(TestCase):
         self.assertAlmostEqual(x, (15+np.sqrt(5))/5, 0, DOT_PERCISION)
         self.assertAlmostEqual(y, (-10+2*np.sqrt(5))/5, 0, DOT_PERCISION)
 
-    def test_get_next_position_in_line(self):
+    def test_get_next_position_in_line_shouldnt_move(self):
         laser = list(np.random.rand(720))
         laser = LaserMsgDummy(list(map(lambda x: 1 + float(x)*29, laser)))
         laser.ranges[420] = 1.0
@@ -61,18 +61,50 @@ class Test_TestLaserLineTracker(TestCase):
         data_obj = LaserDataDummy(laser)
         tracker = LaserLineTracker(LaserPointsWallDetector(
             laser_data_generator=data_obj), laser_data_generator=data_obj)
-        should_move, (x, y, yaw) = tracker.get_next_position_in_line()
-        self.assertAlmostEqual(x, 0, DOT_PERCISION,
-                               'x: '+str(x))
+        should_move, _ = tracker.get_next_position_in_line()
         self.assertAlmostEquals(should_move, False)
-        self.assertAlmostEqual(y, 0, DOT_PERCISION,
-                               'y: '+str(y))
-        self.assertAlmostEqual(yaw, 0, DOT_PERCISION,
-                               'yaw: '+str(yaw))
+        # self.assertAlmostEqual(x, 0, DOT_PERCISION,
+        #                        'x: ' + str(x))
+        # self.assertAlmostEqual(y, 0, DOT_PERCISION,
+        #                        'y: ' + str(y))
+        # self.assertAlmostEqual(yaw, 0, DOT_PERCISION,
+        #                        'yaw: ' + str(yaw))
+        # x=0.5350 y= yaw= shoulmove=
 
-    def test_no_people_in_line(self):
-        self.fail()
+    def test_get_next_position_in_line_should_move(self):
+        laser = list(np.random.rand(720))
+        laser = LaserMsgDummy(list(map(lambda x: 7 + float(x)*20, laser)))
+        laser.ranges[440] = 1.7
+        laser[460] = 2.5
+        data_obj = LaserDataDummy(laser)
+        tracker = LaserLineTracker(LaserPointsWallDetector(
+            laser_data_generator=data_obj), laser_data_generator=data_obj)
+        should_move, (x, y, _) = tracker.get_next_position_in_line()
+        self.assertEquals(should_move, True)
+        #   x1,y1 = polar_to_cartesian(1.7, 440/4+270)
+        #   x2,y2 = polar_to_cartesian(2.5,460/4+270)
+        #   # (1.597477455336044, 0.5814342436536372)
+        #   # (2.2657694675916247, 1.0565456543517489)
+        #   m = (0.5814342436536372-1.0565456543517489)/(1.597477455336044-2.2657694675916247)
+        #   #0.7109338462606235
 
+        #   b = 1.0565456543517489 - m*2.2657694675916247
+        #   #-0.55426654798305
+        #   x,y = find_position_by_two_points(x1,y1,x2,y2)
+        self.assertAlmostEqual(x, 0.7824539028836085, DOT_PERCISION,
+                               'x: ' + str(x))
+        self.assertAlmostEqual(y, 0.0020064147156302337, DOT_PERCISION,
+                               'y: ' + str(y))
+
+    def test_find_position_in_front_of_wall(self):
+        m_wall = 1
+        b_wall = 2
+        TRACKER.set_p_last_person((2, 2))
+        x, y, _ = TRACKER.find_position_in_front_of_wall(m_wall, b_wall)
+        self.assertAlmostEqual(x, 1.4242640687119286, DOT_PERCISION,
+                               'x: ' + str(x))
+        self.assertAlmostEqual(y, 2.5757359312880714, DOT_PERCISION,
+                               'y: ' + str(y))
         # def test_scan_callback_two_people(self):
     #     try:
     #         tracker.scan_callback_two_people(1,80,2,88)
