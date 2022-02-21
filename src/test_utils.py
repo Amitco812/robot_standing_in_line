@@ -1,13 +1,14 @@
 from laser_data_dummy import LaserMsgDummy
-from utils import polar_to_cartesian, point_on_poly, find_orthogonal_line_through_point, dy, dx, find_two_closest_points
 import numpy as np
-from unittest import TestCase
+import unittest
+from utils import polar_to_cartesian, point_on_poly, find_orthogonal_line_through_point, dy, dx, find_two_closest_points
+
 
 DOT_PERCISION = 3
 LASER_SIZE_SCAN = 720
 
 
-class Test_TestUtils(TestCase):
+class Test_TestUtils(unittest.TestCase):
     def test_polar_to_cartesian_first_quadrant(self):
         inputs = [(1, 45), (2, 37), (3, 70)]
         outputs = [(0.707, 0.707), (1.597, 1.203), (1.02, 2.819)]
@@ -113,3 +114,6 @@ class Test_TestUtils(TestCase):
         output = (0.2, 70.5, 0.7, 70.0)  # (minp1,minp1deg,minp2,minp2deg)
         self.assertEquals(find_two_closest_points(
             laser_msg, start_angel=70), output)
+
+if __name__ == '__main__':
+    unittest.main()

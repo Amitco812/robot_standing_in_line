@@ -1,4 +1,3 @@
-from sensor_msgs.msg import LaserScan
 import numpy as np
 from utils import dx, dy, polar_to_cartesian, find_two_closest_points, point_on_poly, find_orthogonal_line_through_point
 from line_tracker import LineTracker
@@ -14,6 +13,7 @@ class LaserLineTracker(LineTracker):
     '''
 
     def __init__(self, wall_detector, laser_data_generator=LaserDataReal(), dist_thresh=1.0, dist_from_wall=0.6):
+        LineTracker.__init__(self)
         self.wall_detector = wall_detector
         self.laser_data_generator = laser_data_generator
         self.dist_thresh = dist_thresh
@@ -81,10 +81,12 @@ class LaserLineTracker(LineTracker):
                       self.p_last_person[1], "and wall is: m: ", m_wall, "b_wall: ", b_wall)
             # no people in line, only wall (we have the last person point)
             elif self.p_last_person != None and point_on_poly(x1, y1, m_wall, b_wall):
+                self.done_tracking = True
                 return True, self.find_position_in_front_of_wall(m_wall, b_wall)
             # no people in line, no last person point contradicts preconditions
-            else:
+            elif point_on_poly(x1,y1,m_wall,b_wall) and point_on_poly(x2,y2,m_wall,b_wall) and self.p_last_person == None:
                 raise Exception("Empty Line Case")
+
         yaw = np.arctan2(y2-y1, x2-x1)
         # move at least when you have 60cm to move
         should_move = minp1 > self.dist_thresh + 0.6

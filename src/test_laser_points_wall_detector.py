@@ -1,4 +1,4 @@
-from unittest import TestCase
+import unittest
 import numpy as np
 from laser_points_wall_detector import LaserPointsWallDetector
 from laser_data_dummy import LaserDataDummy, LaserMsgDummy
@@ -47,7 +47,7 @@ def generate_distances_on_poly(start, end, m_poly, b_poly):
     return distances
 
 
-class Test_TestLaserPointsWallDetector(TestCase):
+class Test_TestLaserPointsWallDetector(unittest.TestCase):
 
     def test_find_wall_in_range(self):
         distances = generate_distances_on_poly(
@@ -66,3 +66,6 @@ class Test_TestLaserPointsWallDetector(TestCase):
         # self.assertEqual((False, False), DETECTOR.detect_wall(laser, 100, 150))
         # (wall inside search zone case) generate 100 random, 200 on some line, and 420 random and expect the line of the 200.
         # (wall not in search zone case) generate 100 points on a line and 620 random and expect no wall
+
+if __name__ == '__main__':
+    unittest.main()

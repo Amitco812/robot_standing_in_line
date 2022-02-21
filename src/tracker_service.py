@@ -17,7 +17,9 @@ def track_line_callback(request):
     loop_rate = rospy.Rate(2)
     laser_points_wall_detector = LaserPointsWallDetector()
     line_tracker = LaserLineTracker(laser_points_wall_detector)
-    while not line_tracker.done_tracking():
+    print("donetracking: ", line_tracker.get_done_tracking())
+
+    while not line_tracker.get_done_tracking():
         should_move, next_position = line_tracker.get_next_position_in_line()
         if should_move:
             move(next_position)

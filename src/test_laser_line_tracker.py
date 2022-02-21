@@ -1,6 +1,6 @@
 from numpy import dot
 from laser_points_wall_detector import LaserPointsWallDetector
-from unittest import TestCase
+import unittest
 import numpy as np
 from laser_line_tracker import LaserLineTracker
 from laser_data_dummy import LaserDataDummy, LaserMsgDummy
@@ -11,7 +11,7 @@ TRACKER = LaserLineTracker(LaserPointsWallDetector(), LaserDataDummy())
 DOT_PERCISION = 3
 
 
-class Test_TestLaserLineTracker(TestCase):
+class Test_TestLaserLineTracker(unittest.TestCase):
 
     def test_find_position_by_two_points_first_if(self):
 
@@ -115,3 +115,6 @@ class Test_TestLaserLineTracker(TestCase):
     #         ('pos1: ', 2, ',', 7, ' pos2: ', 4, ' , ', 11)
     #         ('minp1: ', 1.0, ' minp1_deg: ', 106)
     #         ('minp2: ', 2.0, ' minp2_deg: ', 114)''' , str(e))
+
+if __name__ == '__main__':
+    unittest.main()

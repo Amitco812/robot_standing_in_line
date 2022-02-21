@@ -2,7 +2,6 @@
 import rospy
 # from line_detector.srv import ser_message,ser_messageRequest
 from robot_standing_in_line.srv import TrackerMsg, TrackerMsgRequest
-
 if __name__ == "__main__":
     # rospy.wait_for_service("/line_end_detection")
     rospy.wait_for_service("/tracker_service")

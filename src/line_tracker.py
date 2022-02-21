@@ -27,7 +27,7 @@ class LineTracker:
         None
     '''
 
-    def done_tracking(self):
+    def get_done_tracking(self):
         return self.done_tracking
 
     '''
