@@ -11,7 +11,7 @@ from tf.transformations import quaternion_from_euler
 @Params: 
     *radius- the radius of the point
     *theta- the angle
-    *threash- threashold to stand from the original point
+    *thresh- threshold to stand from the original point
 @Return Value:
     The point on x,y axes
 Description: 
@@ -19,8 +19,8 @@ Description:
 '''
 
 
-def polar_to_cartesian(radius, theta, threash=0):
-    return (radius - threash) * np.cos(np.radians(theta)), (radius - threash) * np.sin(np.radians(theta))
+def polar_to_cartesian(radius, theta, thresh=0):
+    return (radius - thresh) * np.cos(np.radians(theta)), (radius - thresh) * np.sin(np.radians(theta))
 
 
 '''
@@ -53,7 +53,7 @@ def dx(distance, m):
 @Return Value:
     true if point on poly, else false
 Description: 
-    Checks if point is on the line with at most threash
+    Checks if point is on the line with at most thresh
 '''
 
 

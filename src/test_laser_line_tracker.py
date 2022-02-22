@@ -7,7 +7,8 @@ from laser_data_dummy import LaserDataDummy, LaserMsgDummy
 from utils import find_two_closest_points
 
 
-TRACKER = LaserLineTracker(LaserPointsWallDetector(), LaserDataDummy())
+TRACKER = LaserLineTracker(LaserPointsWallDetector(),
+                           laser_data_generator=LaserDataDummy(), dist_thresh=1, dist_from_wall=0.6)
 DOT_PERCISION = 3
 
 
@@ -115,6 +116,7 @@ class Test_TestLaserLineTracker(unittest.TestCase):
     #         ('pos1: ', 2, ',', 7, ' pos2: ', 4, ' , ', 11)
     #         ('minp1: ', 1.0, ' minp1_deg: ', 106)
     #         ('minp2: ', 2.0, ' minp2_deg: ', 114)''' , str(e))
+
 
 if __name__ == '__main__':
     unittest.main()

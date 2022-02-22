@@ -12,13 +12,15 @@ class LaserLineTracker(LineTracker):
         *dist_from_wall - int
     '''
 
-    def __init__(self, wall_detector, laser_data_generator=LaserDataReal(), dist_thresh=1.0, dist_from_wall=0.6):
+    def __init__(self, wall_detector, laser_data_generator=LaserDataReal(), dist_thresh=1.0, dist_from_wall=1, samples_noise_threash=0.05):
         LineTracker.__init__(self)
         self.wall_detector = wall_detector
         self.laser_data_generator = laser_data_generator
         self.dist_thresh = dist_thresh
         self.dist_from_wall = dist_from_wall
         self.p_last_person = None
+        self.last_minp1 = np.Infinity
+        self.samples_noise_threash = samples_noise_threash
 
     def set_p_last_person(self, point):
         self.p_last_person = point
@@ -84,12 +86,16 @@ class LaserLineTracker(LineTracker):
                 self.done_tracking = True
                 return True, self.find_position_in_front_of_wall(m_wall, b_wall)
             # no people in line, no last person point contradicts preconditions
-            elif point_on_poly(x1,y1,m_wall,b_wall) and point_on_poly(x2,y2,m_wall,b_wall) and self.p_last_person == None:
+            elif point_on_poly(x1, y1, m_wall, b_wall) and point_on_poly(x2, y2, m_wall, b_wall) and self.p_last_person == None:
                 raise Exception("Empty Line Case")
 
         yaw = np.arctan2(y2-y1, x2-x1)
-        # move at least when you have 60cm to move
-        should_move = minp1 > self.dist_thresh + 0.6
+        # move at least when you have 60cm to move and samples are not noisy which probably means the line is moving
+        should_move = minp1 > self.dist_thresh + \
+            0.6 and np.abs(
+                minp1 - self.last_minp1) < self.samples_noise_threash
+        # update last_minp1
+        self.last_minp1 = minp1
         x, y = self.find_position_by_two_points(x1, y1, x2, y2)
         # 2 people
         return should_move, (x, y, yaw)
