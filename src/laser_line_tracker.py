@@ -74,7 +74,7 @@ class LaserLineTracker(LineTracker):
         x1, y1 = polar_to_cartesian(minp1, minp1_deg+270)
         x2, y2 = polar_to_cartesian(minp2, minp2_deg+270)
         wall = self.wall_detector.detect_wall()
-        if wall:                                                                        # if wall found
+        if wall:
             m_wall, b_wall = wall
             # the second point is a wall, first time only!!
             if self.p_last_person == None and point_on_poly(x2, y2, m_wall, b_wall):

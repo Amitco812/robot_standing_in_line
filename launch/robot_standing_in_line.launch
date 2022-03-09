@@ -13,6 +13,7 @@
         <arg name="have_map" value="true" doc="set to true to use pre-saved map"/>
         <arg name="map" value="$(find robot_standing_in_line)/coffee_line.yaml" doc="pre-saved map path"/>
         <arg name="move_base" value="true"/>
+    		<arg name="moveit" default="false"/>
     </include>
     <!-- <include file="$(find line_detector)/launch/line_end_detection_py3.launch" /> -->
     <node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
