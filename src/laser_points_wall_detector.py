@@ -40,7 +40,7 @@ class LaserPointsWallDetector(WallDetector):
         wall_end = int(wall_start + self.wall_len)
         while wall_end <= max_wall_deg*4-1:
             found_wall, data = self.find_wall_in_range(
-                wall_start, wall_end, laser_msg)
+                wall_start, wall_end, laser_msg.ranges)
             if found_wall:
                 # here data is (m,b)
                 return data
@@ -68,17 +68,18 @@ class LaserPointsWallDetector(WallDetector):
         self.points_allowed_not_on_poly the potential wall fails. If iterates all points and "most" are on wall line then functions succeeds.
     '''
 
-    def find_wall_in_range(self, wall_start, wall_end, laser_msg):
+    def find_wall_in_range(self, wall_start, wall_end, ranges):
+        ranges = self.filter_laser_noise(ranges)
         x1, y1 = polar_to_cartesian(
-            laser_msg.ranges[wall_start], 270+wall_start/4.0)
+            ranges[wall_start], 270+wall_start/4.0)
         x2, y2 = polar_to_cartesian(
-            laser_msg.ranges[wall_end], 270+wall_end/4.0)
+            ranges[wall_end], 270+wall_end/4.0)
         m, b = np.polyfit([x1, x2], [y1, y2], 1)
         first_idx_not_on_poly = wall_start
         first_seen = True
         points_not_on_poly = 0
         for i in range(wall_start, wall_end):
-            radius = laser_msg.ranges[i]
+            radius = ranges[i]
             x, y = polar_to_cartesian(radius, 270+i/4.0)
             if not point_on_poly(x, y, m, b):
                 points_not_on_poly += 1                  # increment amount of points not on poly
@@ -89,3 +90,17 @@ class LaserPointsWallDetector(WallDetector):
                 return False, first_idx_not_on_poly
         # return poly of the wall
         return True, (m, b)
+    '''
+    @ PreCondition:
+        None
+    @Params:
+        *ranges - the laser ranges to filter
+    @Return Value:
+        filtered ranges with a random value in (30,100) for each value greater than 30
+    @Description:
+        This function replaces all ranges with value greater than 30 with a random value in (30,100).
+    '''
+
+    def filter_laser_noise(self, ranges):
+        return map(lambda range: np.min(
+            [range, np.random.uniform(30.0, 100.0)]), ranges)

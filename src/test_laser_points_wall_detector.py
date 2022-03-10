@@ -55,7 +55,7 @@ class Test_TestLaserPointsWallDetector(unittest.TestCase):
         detector = LaserPointsWallDetector(
             laser_data_generator=LaserDataDummy())
         found, (m, b) = detector.find_wall_in_range(
-            360, 500, LaserMsgDummy(distances))
+            360, 500, LaserMsgDummy(distances).ranges)
         self.assertEquals(found, True)
         self.assertAlmostEquals(m, -2.0, DOT_PERCISION)
         self.assertAlmostEquals(b, 5.0, DOT_PERCISION)
@@ -66,6 +66,7 @@ class Test_TestLaserPointsWallDetector(unittest.TestCase):
         # self.assertEqual((False, False), DETECTOR.detect_wall(laser, 100, 150))
         # (wall inside search zone case) generate 100 random, 200 on some line, and 420 random and expect the line of the 200.
         # (wall not in search zone case) generate 100 points on a line and 620 random and expect no wall
+
 
 if __name__ == '__main__':
     unittest.main()
