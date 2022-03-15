@@ -10,17 +10,18 @@
         <arg name="Y" value="1.7"/>
         <arg name="kinect" value="true"/>
         <arg name="lidar" value="true"/>
-				<arg name="gmapping" value="true"/>
+				<!--<arg name="gmapping" value="true"/>-->
        	<arg name="amcl" value="true"/>
-        <!--<arg name="have_map" value="true" doc="set to true to use pre-saved map"/>
-        <arg name="map" value="$(find robot_standing_in_line)/coffee_line.yaml" doc="pre-saved map path"/>-->
+        <arg name="have_map" value="true" doc="set to true to use pre-saved map"/>
+        <arg name="map" value="$(find robot_standing_in_line)/maps/men_line.yaml" doc="pre-saved map path"/>
         <arg name="move_base" value="true"/>
     		<arg name="moveit" default="true"/>
     </include>
-    <!-- <include file="$(find line_detector)/launch/line_end_detection_py3.launch" /> -->
-    <node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
+    <!--
+		<include file="$(find line_detector)/launch/line_end_detection_py3.launch" /> -->
+		<node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
     <node pkg="robot_standing_in_line" type="manager.py" name="manager" output="screen"/>
-
+		
 
     <node name="find_object_node" pkg="object_detection" type="find_objects_node" output="screen">
         <param name="~object_id" value="1"/>
@@ -42,7 +43,7 @@
     <arg name="start_position" default="cobra_center" />
     <arg name="end_position" default="to_cheak" />
     <arg name="give_position" default="give" />
-    <arg name="detection_method_base_on" default="color" /> <!-- yolo or color-->
+    <arg name="detection_method_base_on" default="color" /> 
 
 
     <node name="pick" pkg="robotican_demos_upgrade" type="pickNPlace" output="screen" required="true">
@@ -51,4 +52,9 @@
         <param name="~object_name" value="can"/>
         <param name="~detection_method" value="$(arg detection_method_base_on)"/>
     </node>
+		
+		<node name="grasp_indicator" pkg="robotican_demos_upgrade" type="grasp_indicator.py" output="screen"> 
+				<param name="joints_topic" value="/joint_states"/>
+		</node>
+
 </launch>
