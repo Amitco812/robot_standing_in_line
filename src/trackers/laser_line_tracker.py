@@ -1,10 +1,11 @@
-import numpy as np
 from utils import dx, dy, polar_to_cartesian, find_two_closest_points, point_on_poly, find_orthogonal_line_through_point
 from line_tracker import LineTracker
-from laser_data_real import LaserDataReal
+import numpy as np
 
 
 class LaserLineTracker(LineTracker):
+    from data_objects.laser_data_real import LaserDataReal
+
     '''
     @Params:
         *wall_detector- WallDetector

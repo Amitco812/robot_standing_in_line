@@ -1,4 +1,4 @@
-from laser_data_real import LaserDataReal
+from data_objects.laser_data_real import LaserDataReal
 from wall_detector import WallDetector
 import numpy as np
 from utils import find_two_closest_points, polar_to_cartesian, point_on_poly

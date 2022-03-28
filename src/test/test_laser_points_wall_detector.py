@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-from laser_points_wall_detector import LaserPointsWallDetector
-from laser_data_dummy import LaserDataDummy, LaserMsgDummy
+from wall_detectors.laser_points_wall_detector import LaserPointsWallDetector
+from data_objects.laser_data_dummy import LaserDataDummy, LaserMsgDummy
 from test_laser_line_tracker import DOT_PERCISION
 
 '''

@@ -1,9 +1,9 @@
 from numpy import dot
-from laser_points_wall_detector import LaserPointsWallDetector
+from wall_detectors.laser_points_wall_detector import LaserPointsWallDetector
 import unittest
 import numpy as np
-from laser_line_tracker import LaserLineTracker
-from laser_data_dummy import LaserDataDummy, LaserMsgDummy
+from trackers.laser_line_tracker import LaserLineTracker
+from data_objects.laser_data_dummy import LaserDataDummy, LaserMsgDummy
 from utils import find_two_closest_points
 
 

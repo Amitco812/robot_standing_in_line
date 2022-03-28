@@ -3,8 +3,8 @@
 # check about the above line ... python/python3
 import rospy
 from robot_standing_in_line.srv import TrackerMsg, TrackerMsgResponse
-from laser_line_tracker import LaserLineTracker
-from laser_points_wall_detector import LaserPointsWallDetector
+from trackers.laser_line_tracker import LaserLineTracker
+from wall_detectors.laser_points_wall_detector import LaserPointsWallDetector
 from utils import move
 
 SERVICE_NAME = "tracker_service"

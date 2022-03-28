@@ -1,4 +1,4 @@
-from laser_data_dummy import LaserMsgDummy
+from data_objects.laser_data_dummy import LaserMsgDummy
 import numpy as np
 import unittest
 from utils import polar_to_cartesian, point_on_poly, find_orthogonal_line_through_point, dy, dx, find_two_closest_points
@@ -114,6 +114,7 @@ class Test_TestUtils(unittest.TestCase):
         output = (0.2, 70.5, 0.7, 70.0)  # (minp1,minp1deg,minp2,minp2deg)
         self.assertEquals(find_two_closest_points(
             laser_msg, start_angel=70), output)
+
 
 if __name__ == '__main__':
     unittest.main()
