@@ -186,8 +186,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>1.40001 6.20001 0.195589 -0.038128 -0.048575 -1.59907</pose>
-          <velocity>1e-06 1e-06 0.009145 -0.002219 0.001847 0</velocity>
+          <pose frame=''>1.40 6.2 0 0 0 -1.6</pose>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -244,8 +244,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>2.25002 6.20002 0.257108 -0.05014 -0.063855 -1.6984</pose>
-          <velocity>1e-06 1e-06 0.009145 -0.002024 0.002059 0</velocity>
+          <pose frame=''>2.25 6.2 0 0 0 -1.7</pose>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -302,8 +302,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>4.30002 2.49998 0.257193 -0.043573 -0.068549 -3.0985</pose>
-          <velocity>1e-06 -1e-06 0.009148 0.001444 0.002502 0</velocity>
+          <pose frame=''>4.3 2.5 0 0 0 -3.1</pose>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -360,8 +360,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>4.20002 3.69998 0.257107 -0.050149 -0.063854 -2.99841</pose>
-          <velocity>1e-06 -1e-06 0.009145 0.001443 0.002501 0</velocity>
+          <pose frame=''>4.2 3.7 0 0 0 -3</pose>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -418,8 +418,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>3.20002 5.8 0.257107 -0.050135 -0.063849 -2.1984</pose>
-          <velocity>1e-06 0 0.009145 -0.000789 0.002777 0</velocity>
+          <pose frame=''>3.2 5.8 0 0 0 -2.2</pose>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -476,8 +476,8 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_7'>
-          <pose frame=''>3.90002 4.9 0.257107 -0.050135 -0.063846 -2.49841</pose>
-          <velocity>1e-06 0 0.009145 6.7e-05 0.002886 0</velocity>
+          <pose frame=''>3.9 4.9 0 0 0 -2.5</pose>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
@@ -1035,7 +1035,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>1.21882 6.23217 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -1566,7 +1566,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>2.16876 6.12426 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -2097,7 +2097,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>3.11524 5.88257 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -2628,7 +2628,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.0287 5.71457 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -3159,7 +3159,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.5717 3.99544 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -3690,7 +3690,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.71686 3.257 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -3746,6 +3746,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
+	<static>1</static>
     </model>
     <model name='coke_can_slim'>
       <static>0</static>
