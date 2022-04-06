@@ -5,7 +5,7 @@ from utils import find_two_closest_points, polar_to_cartesian, point_on_poly
 
 
 class LaserPointsWallDetector(WallDetector):
-    def __init__(self, laser_data_generator=LaserDataReal(), points_allowed_not_on_poly=30, angel_offset=30, wall_len=120):
+    def __init__(self, laser_data_generator=LaserDataReal(), points_allowed_not_on_poly=30, angel_offset=30, wall_len=80):
         self.laser_data_generator = laser_data_generator
         self.points_allowed_not_on_poly = points_allowed_not_on_poly  # point is 1/4 angle
         self.angel_offset = angel_offset
@@ -43,6 +43,7 @@ class LaserPointsWallDetector(WallDetector):
                 wall_start, wall_end, laser_msg.ranges)
             if found_wall:
                 # here data is (m,b)
+                print("found wall with ",data)
                 return data
             else:
                 # here data is first_idx_not_on_poly

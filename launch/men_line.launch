@@ -22,7 +22,6 @@
 		<node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
     <node pkg="robot_standing_in_line" type="manager.py" name="manager" output="screen"/>
 		
-
     <node name="find_object_node" pkg="object_detection" type="find_objects_node" output="screen">
         <param name="~object_id" value="1"/>
         <param name="~depth_topic1" value="/kinect2/qhd/points"/> 

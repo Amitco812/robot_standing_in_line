@@ -40,7 +40,7 @@ class LaserLineTracker(LineTracker):
     '''
 
     def find_position_by_two_points(self, x1, y1, x2, y2):
-        print("pos1: ", x1, ",", y1, " pos2: ", x2, " , ", y2)
+        # print("pos1: ", x1, ",", y1, " pos2: ", x2, " , ", y2)
         m, _ = np.polyfit([x1, x2], [y1, y2], 1)
         if x2 > x1 and y2 > y1:
             return x1-dx(self.dist_thresh, m), y1-dy(self.dist_thresh, m)
@@ -52,13 +52,7 @@ class LaserLineTracker(LineTracker):
             return x1+dx(self.dist_thresh, m), y1+dy(self.dist_thresh, m)
         # x1==x2 case is too rare
 
-    '''
-    notice : at the case that the line contains only one person, the variable self.p_last_person will be taken too early!
-    @ PreCondition:
-        At least 1 person in the line.
-        Armadillo publishes to laser topic.
-    @Params:
-        None
+    '''824000000
     @Return Value:
         should_move, tuple of 3 marks the location to go to.
     @Description:
