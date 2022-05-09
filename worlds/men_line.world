@@ -1035,7 +1035,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>1.21882 6.23217 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -1566,7 +1566,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>2.16876 6.12426 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -2097,7 +2097,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>3.11524 5.88257 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -2628,7 +2628,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.0287 5.71457 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -3159,7 +3159,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.5717 3.99544 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
@@ -3690,7 +3690,7 @@
           <mass>1</mass>
         </inertial>
       </link>
-      <static>1</static>
+      <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.71686 3.257 0 0 -0 0</pose>
       <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
