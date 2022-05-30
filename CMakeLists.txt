@@ -38,6 +38,11 @@ target_link_libraries(move_person_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
 add_library(move_cup_plugin src/plugins/move_cup.cc)
 target_link_libraries(move_cup_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  #ARGS myarg1:=true myarg2:=false
+  add_rostest(src/test/line_tracker.test)
+endif()
 
 catkin_package(
   DEPENDS 

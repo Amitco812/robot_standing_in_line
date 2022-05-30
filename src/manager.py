@@ -26,7 +26,7 @@ def call_speech_service(is_mock,request):
 if __name__ == "__main__":
     speech_mock = sys.argv[1] == 'true'
     # rospy.wait_for_service("/line_end_detection")
-    rospy.wait_for_service(TRACKER_SERVICE_NAME)
+    """
     try:
          # === LINE END DETECTION START ===
         line_end_detection = rospy.ServiceProxy("/line_end_detection",ser_message)
@@ -35,7 +35,8 @@ if __name__ == "__main__":
         # === LINE END DETECTION ENDS ===
     except rospy.ServiceException as e:
         print("line end detection exception: %s" % e)
-
+    """
+    rospy.wait_for_service(TRACKER_SERVICE_NAME)
     try:
         # === LINE TRACKER START ===
         line_tracker = rospy.ServiceProxy("tracker_service", TrackerMsg)
