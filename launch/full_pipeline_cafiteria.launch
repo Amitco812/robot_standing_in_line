@@ -17,7 +17,7 @@
         <arg name="move_base" value="true"/>
     		<arg name="moveit" default="true"/>
     </include>
-		<!--<include file="$(find line_detector)/launch/line_end_detection_py3.launch" />-->
+		<include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
 		<node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
     <node pkg="robot_standing_in_line" type="manager.py" name="manager" output="screen" args = "$(arg speech_mock)"/>
 		

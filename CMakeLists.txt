@@ -42,6 +42,9 @@ if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   #ARGS myarg1:=true myarg2:=false
   add_rostest(src/test/line_tracker.test)
+  add_rostest(src/test/line_end_detection.test)
+  add_rostest(src/test/detect_and_track.test)
+
 endif()
 
 catkin_package(

@@ -10,6 +10,7 @@ from robotican_demos_upgrade.srv import pick_unknown, pick_unknownRequest
 
 TRACKER_SERVICE_NAME = "/tracker_service"
 PICK_SERVICE_NAME = "/pick_unknown"
+LINE_END_SERVICE = "/line_end_detection"
 
 
 def call_speech_service(is_mock,request):
@@ -25,21 +26,21 @@ def call_speech_service(is_mock,request):
 
 if __name__ == "__main__":
     speech_mock = sys.argv[1] == 'true'
-    # rospy.wait_for_service("/line_end_detection")
-    """
+    rospy.wait_for_service(LINE_END_SERVICE)
+    
     try:
          # === LINE END DETECTION START ===
-        line_end_detection = rospy.ServiceProxy("/line_end_detection",ser_message)
+        line_end_detection = rospy.ServiceProxy(LINE_END_SERVICE,ser_message)
         line_end_resp = line_end_detection(ser_messageRequest(True))
         print("response from line end: ",line_end_resp)
         # === LINE END DETECTION ENDS ===
     except rospy.ServiceException as e:
         print("line end detection exception: %s" % e)
-    """
+    
     rospy.wait_for_service(TRACKER_SERVICE_NAME)
     try:
         # === LINE TRACKER START ===
-        line_tracker = rospy.ServiceProxy("tracker_service", TrackerMsg)
+        line_tracker = rospy.ServiceProxy(TRACKER_SERVICE_NAME, TrackerMsg)
         line_tracker(TrackerMsgRequest(True))
         # === LINE TRACKER END ===
         # === SPEECH SYNTHESIS START ===
@@ -47,7 +48,7 @@ if __name__ == "__main__":
         # === SPEECH SYNTHESIS END ===
         # === PICK SERVICE START ===
         rospy.wait_for_service(PICK_SERVICE_NAME)
-        pick_service = rospy.ServiceProxy("pick_unknown", pick_unknown)
+        pick_service = rospy.ServiceProxy(PICK_SERVICE_NAME, pick_unknown)
         pick_service(pick_unknownRequest())  # '', '', ''))
         # === PICK SERVICE END ===
 
