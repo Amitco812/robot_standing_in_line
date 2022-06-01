@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <include file="$(find armadillo2)/launch/armadillo2.launch" >
+        <arg name="gazebo" value="true" doc="execute armadillo2 inside gazebo sim"/>
+        <arg name="world_name" value="$(find robot_standing_in_line)/worlds/coffee_struct_diff_line.world"/>
+        <arg name="x" value="2.3"/>
+        <arg name="y" value="-0.4"/>
+        <arg name="z" value="0.0"/>
+        <arg name="Y" value="1.7"/>
+        <arg name="kinect" value="true"/>
+        <arg name="lidar" value="true"/>
+        <arg name="amcl" value="true"/>
+        <arg name="have_map" value="true" doc="set to true to use pre-saved map"/>
+        <arg name="map" value="$(find robot_standing_in_line)/coffee_line.yaml" doc="pre-saved map path"/>
+        <arg name="move_base" value="true"/>
+    		<arg name="moveit" default="false"/>
+    </include> 
+    <node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
+    <test pkg="robot_standing_in_line" type="test_tracker_node.py" test-name="tracker_node_test" time-limit="600.0"/>
+</launch>

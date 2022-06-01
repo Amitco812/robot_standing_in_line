@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name = "speech_mock" value = "true"/>
+    <include file="$(find armadillo2)/launch/armadillo2.launch" >
+        <arg name="gazebo" value="true" doc="execute armadillo2 inside gazebo sim"/>
+        <arg name="world_name" value="$(find robot_standing_in_line)/worlds/men_line.world"/>
+        <arg name="x" value="7.47"/>
+        <arg name="y" value="0.85"/>
+        <arg name="z" value="0.0"/>
+        <arg name="Y" value="2.1"/>
+        <arg name="kinect" value="true"/>
+        <arg name="lidar" value="true"/>
+				<!--<arg name="gmapping" value="true"/>-->
+       	<arg name="amcl" value="true"/>
+        <arg name="have_map" value="true" doc="set to true to use pre-saved map"/>
+        <arg name="map" value="$(find robot_standing_in_line)/maps/men_line.yaml" doc="pre-saved map path"/>
+        <arg name="move_base" value="true"/>
+        <arg name="moveit" default="true"/>
+    </include>
+    <node name="nav_services" pkg="armadillo_navigation_upgrade" type="navigation_services_with_feedback.py" output="screen">
+    <rosparam file="$(find armadillo_navigation_upgrade)/config_nav_service/nav_service_req_sim.yaml" command="load"/>
+    </node>
+    <include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
+    <test pkg="robot_standing_in_line" type="test_line_end_detection.py" test-name="test_detect_and_track" time-limit="600.0"/>
+</launch>
