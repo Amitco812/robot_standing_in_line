@@ -44,7 +44,7 @@ if(CATKIN_ENABLE_TESTING)
   add_rostest(src/test/line_tracker.test)
   add_rostest(src/test/line_end_detection.test)
   add_rostest(src/test/detect_and_track.test)
-  add_rostest(src/test/detect_and_track_w2.test)
+  add_rostest(src/test/line_end_detection_w2_pos2.test)
 
 
 endif()
