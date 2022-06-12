@@ -73,15 +73,15 @@ namespace gazebo
       
       math::Pose p_barista = math::Pose(1.4,6.2,zero,zero,zero,-1.6);
       this->poses[0]=p_barista;
-      math::Pose p2 = math::Pose(2.2,6.0,zero,zero,zero,-1.7);
+      math::Pose p2 = math::Pose(2.25,6.2,zero,zero,zero,-1.7);
       this->poses[1]=p2;
-      math::Pose p3 = math::Pose(3.0,4.6,zero,zero,zero,-2.8);
+      math::Pose p3 = math::Pose(3.2,5.8,zero,zero,zero,-2.2);
       this->poses[2]=p3;
-      math::Pose p4 = math::Pose(3.2,3.8,zero,zero,zero,-2.5);
+      math::Pose p4 = math::Pose(3.9,4.9,zero,zero,zero,-2.5);
       this->poses[3]=p4;
-      math::Pose p5 = math::Pose(3.0,2.4,zero,zero,zero,3);
+      math::Pose p5 = math::Pose(4.2,3.7,zero,zero,zero,-3);
       this->poses[4]=p5;
-      math::Pose p6 = math::Pose(2.8,1.4,zero,zero,zero,-3.1);
+      math::Pose p6 = math::Pose(4.3,2.5,zero,zero,zero,-3.1);
       this->poses[5]=p6;
 
     }

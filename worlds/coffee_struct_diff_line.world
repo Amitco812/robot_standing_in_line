@@ -1241,7 +1241,7 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>1.21882 6.23217 0 0 -0 0</pose>
-      <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+      <plugin name='move_person_plugin_2' filename='libmove_person_plugin_2.so'/>
     </model>
     <model name='human_male_1_1_0'>
       <link name='link_0'>
@@ -1772,7 +1772,7 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>2.16876 6.12426 0 0 -0 0</pose>
-      <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+      <plugin name='move_person_plugin_2' filename='libmove_person_plugin_2.so'/>
     </model>
     <model name='human_male_2_0'>
       <link name='link_0'>
@@ -2303,7 +2303,7 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>3.11524 5.88257 0 0 -0 0</pose>
-      <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+      <plugin name='move_person_plugin_2' filename='libmove_person_plugin_2.so'/>
     </model>
     <model name='human_male_3_0'>
       <link name='link_0'>
@@ -2834,7 +2834,7 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.0287 5.71457 0 0 -0 0</pose>
-      <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+      <plugin name='move_person_plugin_2' filename='libmove_person_plugin_2.so'/>
     </model>
     <model name='human_male_1_2'>
       <link name='link_0'>
@@ -3365,7 +3365,7 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.5717 3.99544 0 0 -0 0</pose>
-      <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+      <plugin name='move_person_plugin_2' filename='libmove_person_plugin_2.so'/>
     </model>
     <model name='human_male_1_1_1'>
       <link name='link_0'>
@@ -3896,7 +3896,7 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>4.71686 3.257 0 0 -0 0</pose>
-      <plugin name='move_person_plugin' filename='libmove_person_plugin.so'/>
+      <plugin name='move_person_plugin_2' filename='libmove_person_plugin_2.so'/>
     </model>
     <model name='unit_box_0_1'>
       <pose frame=''>-0.50301 5.42367 0.5 0 -0 0</pose>

@@ -13,6 +13,7 @@ PICK_SERVICE_NAME = "/pick_unknown"
 LINE_END_SERVICE = "/line_end_detection"
 
 
+
 def call_speech_service(is_mock,request):
     if is_mock:
         return speech_service_mock(request)

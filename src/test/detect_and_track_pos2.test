@@ -22,7 +22,7 @@
     </node>
     <include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
     <node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
-    <test pkg="robot_standing_in_line" type="test_detect_and_track.py" test-name="test_detect_and_track" time-limit="600.0"/>
+    <test pkg="robot_standing_in_line" type="test_detect_and_track.py" test-name="test_detect_and_track_pos2" time-limit="600.0"/>
 </launch>
     
 

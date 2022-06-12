@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+import unittest
+import rospy
+import sys
+from robot_standing_in_line.srv import TrackerMsg, TrackerMsgRequest
+from mocks.speech_service_mock import speech_service_mock
+from robotican_demos_upgrade.srv import pick_unknown, pick_unknownRequest
+from line_detector.srv import ser_message,ser_messageRequest
+from voice_text_interface.srv import *
+
+TRACKER_SERVICE_NAME = "/tracker_service"
+LINE_END_SERVICE = "/line_end_detection"
+PKG = "robot_standing_in_line"
+TRACKER_SERVICE_NAME = "/tracker_service"
+PICK_SERVICE_NAME = "/pick_unknown"
+LINE_END_SERVICE = "/line_end_detection"
+
+def call_speech_service(is_mock,request):
+    if is_mock:
+        return speech_service_mock(request)
+    else:
+        rospy.wait_for_service('speech_to_text')
+        speech_to_text_req = rospy.ServiceProxy('speech_to_text', speech_to_text) 
+        resp1 = speech_to_text_req(request)  
+        print("Responding to the voice command!")   
+        return resp1.status
+
+class End_to_end(unittest.TestCase):
+
+    #test full pipeline
+    def end_to_end(self):
+        speech_mock = sys.argv[1] == 'true'
+        rospy.wait_for_service(LINE_END_SERVICE)
+        
+        try:
+            # === LINE END DETECTION START ===
+            line_end_detection = rospy.ServiceProxy(LINE_END_SERVICE,ser_message)
+            line_end_resp = line_end_detection(ser_messageRequest(True))
+            print("response from line end: ",line_end_resp)
+            # === LINE END DETECTION ENDS ===
+        except rospy.ServiceException as e:
+            print("line end detection exception: %s" % e)
+        
+        rospy.wait_for_service(TRACKER_SERVICE_NAME)
+        try:
+            # === LINE TRACKER START ===
+            line_tracker = rospy.ServiceProxy(TRACKER_SERVICE_NAME, TrackerMsg)
+            line_tracker(TrackerMsgRequest(True))
+            # === LINE TRACKER END ===
+            # === SPEECH SYNTHESIS START ===
+            resp = call_speech_service(speech_mock,"Bring me coffee please")
+            # === SPEECH SYNTHESIS END ===
+            # === PICK SERVICE START ===
+            rospy.wait_for_service(PICK_SERVICE_NAME)
+            pick_service = rospy.ServiceProxy(PICK_SERVICE_NAME, pick_unknown)
+            pick_service(pick_unknownRequest())  # '', '', ''))
+            # === PICK SERVICE END ===
+            self.assertTrue()
+
+        except rospy.ServiceException as e:
+            print("exception: %s" % e)
+        
+
+
+
+if __name__ == '__main__':
+    import rostest
+    rostest.rosrun(PKG,'test_end_to_end',End_to_end)

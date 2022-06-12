@@ -21,5 +21,5 @@
     <rosparam file="$(find armadillo_navigation_upgrade)/config_nav_service/nav_service_req_sim.yaml" command="load"/>
     </node>
     <include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
-    <test pkg="robot_standing_in_line" type="test_line_end_detection.py" test-name="test_detect_and_track" time-limit="600.0"/>
+    <test pkg="robot_standing_in_line" type="test_line_end_detection.py" test-name="test_line_end_detection_world2" time-limit="600.0"/>
 </launch>

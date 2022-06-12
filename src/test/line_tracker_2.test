@@ -16,5 +16,5 @@
     		<arg name="moveit" default="false"/>
     </include> 
     <node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
-    <test pkg="robot_standing_in_line" type="test_tracker_node.py" test-name="tracker_node_test" time-limit="600.0"/>
+    <test pkg="robot_standing_in_line" type="test_tracker_node.py" test-name="test_line_tracker_2" time-limit="600.0"/>
 </launch>
