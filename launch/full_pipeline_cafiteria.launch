@@ -20,7 +20,8 @@
 		<include file="$(find line_detector)/launch/line_end_detection_py3.launch" />
 		<node pkg="robot_standing_in_line" type="tracker_service.py" name="tracker_service" output="screen"/>
     <node pkg="robot_standing_in_line" type="manager.py" name="manager" output="screen" args = "$(arg speech_mock)"/>
-		
+		<node name="alvar_markers_pub" pkg="obj_detector" type="alvar_markers_pub.py" output="screen">
+		</node> 
     <node name="find_object_node" pkg="object_detection" type="find_objects_node" output="screen">
         <param name="~object_id" value="1"/>
         <param name="~depth_topic1" value="/kinect2/qhd/points"/> 
@@ -41,18 +42,26 @@
     <arg name="start_position" default="cobra_center" />
     <arg name="end_position" default="to_cheak" />
     <arg name="give_position" default="give" />
-    <arg name="detection_method_base_on" default="color" /> 
+    <arg name="detection_method_base_on" default="yolo" /> 
 
 
     <node name="pick" pkg="robotican_demos_upgrade" type="pickNPlace" output="screen" required="true">
         <param name="~start_position_name" value="$(arg start_position)"/>
         <param name="~end_position_name" value="$(arg end_position)"/>
         <param name="~object_name" value="can"/>
-        <param name="~detection_method" value="$(arg detection_method_base_on)"/>
+        <param name="~detection_method" value="color"/>
     </node>
-		
+		<node name="yolo" pkg="obj_detector" type="wrapper_yolo4.py" output="screen"
+					launch-prefix="bash -c 'sleep 15; $0 $@' " />
+
 		<node name="grasp_indicator" pkg="robotican_demos_upgrade" type="grasp_indicator.py" output="screen"> 
 				<param name="joints_topic" value="/joint_states"/>
 		</node>
+	<node name="serve_to_person" pkg="robotican_demos_upgrade" type="serve_to_person" output="screen" required="true">
+    <param name="~start_position_name" value="$(arg start_position)"/>
+    <param name="~object_name" value="can"/>
+    <param name="~detection_method" value="$(arg detection_method_base_on)"/>
+    <rosparam file="$(find robotican_demos_upgrade)/config/PID_params.yaml" command="load"/>
+	</node> 
 
 </launch>

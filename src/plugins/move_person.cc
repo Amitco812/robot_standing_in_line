@@ -101,7 +101,7 @@ namespace gazebo
       this->ends[3]=p_end4;
       math::Pose p_end5 = math::Pose(x,y+4*delta,zero,zero,zero,zero);
       this->ends[4]=p_end5;
-      math::Pose p_end6 = math::Pose(x,y+5*delta,zero,zero,zero,zero);
+      math::Pose p_end6 = math::Pose(3.63,1.5,zero,zero,zero,3.07);
       this->ends[5]=p_end6;
 
     }

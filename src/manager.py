@@ -6,11 +6,47 @@ from mocks.speech_service_mock import speech_service_mock
 from voice_text_interface.srv import *
 from robot_standing_in_line.srv import TrackerMsg, TrackerMsgRequest
 from robotican_demos_upgrade.srv import pick_unknown, pick_unknownRequest
-
+from std_srvs.srv import TriggerRequest,Trigger
+import actionlib
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+from actionlib_msgs.msg import GoalStatus
 
 TRACKER_SERVICE_NAME = "/tracker_service"
 PICK_SERVICE_NAME = "/pick_unknown"
 LINE_END_SERVICE = "/line_end_detection"
+GIVE_SERVICE_NAME = "/deliver_to_person"
+
+
+def move(data):
+    x, y, orx,ory,orz,orw = data
+    goal = MoveBaseGoal()
+    # set up the frame parameters
+    goal.target_pose.header.frame_id = "map"
+    goal.target_pose.header.stamp = rospy.Time.now()
+    # moving towards the goal*/
+    goal.target_pose.pose.position.x = x
+    goal.target_pose.pose.position.y = y
+    goal.target_pose.pose.position.z = 0
+    goal.target_pose.pose.orientation.x = orx
+    goal.target_pose.pose.orientation.y = ory
+    goal.target_pose.pose.orientation.z = orz
+    goal.target_pose.pose.orientation.w = orw
+    move_base(goal)
+
+
+def move_base(goal):
+    ac = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+    # wait for the action server to come up
+    while not ac.wait_for_server(rospy.Duration.from_sec(5.0)):
+        rospy.loginfo("Waiting for the move_base action server to come up")
+    print("goal location: ", goal)
+    ac.send_goal(goal)
+    ac.wait_for_result(rospy.Duration(60))
+    if ac.get_state() == GoalStatus.SUCCEEDED:
+        rospy.loginfo("You have reached the end of the queue")
+    else:
+        rospy.loginfo("The robot failed to reach the end of the queue")
+
 
 
 
@@ -26,6 +62,7 @@ def call_speech_service(is_mock,request):
 
 
 if __name__ == "__main__":
+    rospy.init_node("manegar")
     speech_mock = sys.argv[1] == 'true'
     rospy.wait_for_service(LINE_END_SERVICE)
     
@@ -34,7 +71,7 @@ if __name__ == "__main__":
         line_end_detection = rospy.ServiceProxy(LINE_END_SERVICE,ser_message)
         line_end_resp = line_end_detection(ser_messageRequest(True))
         print("response from line end: ",line_end_resp)
-        # === LINE END DETECTION ENDS ===
+        # ===nnot import name re LINE END DETECTION ENDS ===
     except rospy.ServiceException as e:
         print("line end detection exception: %s" % e)
     
@@ -52,9 +89,17 @@ if __name__ == "__main__":
         pick_service = rospy.ServiceProxy(PICK_SERVICE_NAME, pick_unknown)
         pick_service(pick_unknownRequest())  # '', '', ''))
         # === PICK SERVICE END ===
-
+        # === GIVE SERVICE START ===
+        move([2.37,3.56,0,0,0.606,0.795])
+        give_service = rospy.ServiceProxy(GIVE_SERVICE_NAME, Trigger)
+        give_service(TriggerRequest())
     except rospy.ServiceException as e:
         print("exception: %s" % e)
+    
+   
+
+
+    
         
 
 
