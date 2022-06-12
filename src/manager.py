@@ -10,6 +10,7 @@ from std_srvs.srv import TriggerRequest,Trigger
 import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from actionlib_msgs.msg import GoalStatus
+from tf.transformations import quaternion_from_euler
 
 TRACKER_SERVICE_NAME = "/tracker_service"
 PICK_SERVICE_NAME = "/pick_unknown"
@@ -18,7 +19,7 @@ GIVE_SERVICE_NAME = "/deliver_to_person"
 
 
 def move(data):
-    x, y, orx,ory,orz,orw = data
+    x, y, yaw = data
     goal = MoveBaseGoal()
     # set up the frame parameters
     goal.target_pose.header.frame_id = "map"
@@ -27,10 +28,11 @@ def move(data):
     goal.target_pose.pose.position.x = x
     goal.target_pose.pose.position.y = y
     goal.target_pose.pose.position.z = 0
-    goal.target_pose.pose.orientation.x = orx
-    goal.target_pose.pose.orientation.y = ory
-    goal.target_pose.pose.orientation.z = orz
-    goal.target_pose.pose.orientation.w = orw
+    goal_orientation = quaternion_from_euler(0, 0, yaw)
+    goal.target_pose.pose.orientation.x = goal_orientation[0]
+    goal.target_pose.pose.orientation.y = goal_orientation[1]
+    goal.target_pose.pose.orientation.z = goal_orientation[2]
+    goal.target_pose.pose.orientation.w = goal_orientation[3]
     move_base(goal)
 
 
@@ -90,11 +92,13 @@ if __name__ == "__main__":
         pick_service(pick_unknownRequest())  # '', '', ''))
         # === PICK SERVICE END ===
         # === GIVE SERVICE START ===
-        move([2.37,3.56,0,0,0.606,0.795])
+        move([2.37,3.56,-1.25])
         give_service = rospy.ServiceProxy(GIVE_SERVICE_NAME, Trigger)
         give_service(TriggerRequest())
+        
     except rospy.ServiceException as e:
         print("exception: %s" % e)
+   
     
    
 
